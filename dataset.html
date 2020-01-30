@@ -1,0 +1,4396 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 공통 jsp 파일-->
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+	<meta name="format-detection" content="telephone=no"/><!-- 전화번호 자동링크 없애기 -->
+	<meta name="keywords" content=""><!-- 키워드 제공 -->
+	<meta name="description" content=""><!-- 요약정보 -->
+	<meta name="robots" content="all"><!-- 검색로봇 -->
+	<title>전력데이터 개방 포털시스템</title>
+	
+	
+	
+	<link type="text/css" rel="stylesheet" href="/style/S01/import.css">
+	<link type="text/css" rel="stylesheet" href="/style/S01/jquery-ui.css">
+	
+	<!--script src="../js/jquery-3.2.0.min.js"></script-->
+	<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.bxslider.js"></script>
+	<script type="text/javascript" src="/js/design.js"></script>
+	<script type="text/javascript" src="/js/wow.min.js"></script>
+	
+	
+	<!-- 정전맵 s -->
+	
+	<!-- 정전맵 e -->
+	
+	<script type="text/javascript" src="/js/CmCommon.js"></script>
+	<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="/js/jquery-ui.js"></script>
+	<script type="text/javascript" src="/js/jquery.ui.datepicker-ko.js"></script>
+	
+<script language="javascript"  type="text/javascript">
+//com-jquery-fn.js
+var JI_CM_COMON_MSG_ALERT01 = "을(를) 입력하십시오.";		
+var JI_CM_COMON_MSG_ALERT02 = "의 길이를";
+var JI_CM_COMON_MSG_ALERT03 = "이하로 입력하십시오.\n (한글 3byte  영문,숫자 1byte 사용가능) \n 현재";
+var JI_CM_COMON_MSG_ALERT04 = "은(는) 숫자로만 입력하십시오.";
+var JI_CM_COMON_MSG_ALERT05 = "을(를) 선택 하십시오.";
+
+//CmCommon.js
+var JI_CM_COMON_MSG_NO_DATA = "조회된 데이타가 없습니다.";
+
+
+</script>
+
+
+	
+	<!-- com -->
+	<script src="/js/com.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/com-jquery-fn.js" type="text/javascript" charset="utf-8"></script>	
+	
+	<!-- jqplot -->
+	<script type="text/javascript" src="/js/jqplot/excanvas.js"></script>
+	<script type="text/javascript" src="/js/jqplot/excanvas.min.js"></script>
+	<script type="text/javascript" src="/js/jqplot/jquery.jqplot.min.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.cursor.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.barRenderer.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.pieRenderer.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.donutRenderer.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.categoryAxisRenderer.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.pointLabels.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.enhancedLegendRenderer.min.js"></script>
+		
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.canvasTextRenderer.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.js"></script>
+	<script type="text/javascript" src="/js/jqplot/plugins/jqplot.highlighter.js"></script>
+	<!-- jqplot -->
+		
+</head>
+<!-- disable -->
+<div id="pageDisable" style="position:absolute;width:100%;height:100%;top:0%;left:0%;z-index:8000;display:none;"> </div>
+<!-- disable --> 
+<div class="loadingarea" id="loadingarea">
+	<div class="loading">로딩중입니다.</div>
+	<div class="loading_txt">Loading...</div>
+	<div class="loading_shadow">가림영역</div>
+</div>
+<!-- 공통 jsp 파일-->
+
+
+<body>
+
+
+
+
+
+<!--site_map-->
+<div class="site_map">
+	<div class="site_map_inner">
+		<div class="site_map_close">닫기<span class="stic_1"></span><span class="stic_2"></span></div>
+		<!--h1 class="main_title">사이트맵</h1-->
+		<ul id="sitemap_data">
+		
+		</ul>
+	</div>
+</div>
+<div class="site_map_move"><span></span></div>
+<div class="site_map_move2"><span></span></div>
+<div class="site_map_move3"><span></span></div>
+<!--//site_map-->
+
+
+
+<script type='text/javascript'>
+//<![CDATA[
+        
+$(function() {
+	/*사이트맵*/		
+	sitemapInit();
+	
+}); 
+
+
+function sitemapInit(){
+	
+	var prev_i = 0;
+	var depth1_ord = 1;
+	
+	// 트리의 값을 셋팅한다
+	/*[0];//' M_CODE	[1];//' M_NM	[2];//' M_UP_CODE	[3];//' DEPTH_NO	[4];//' ORDER_NO	[5];//' LINK_TY
+	[6];//' M_CODES
+	[7];//' LV
+	*/
+
+	// 현재 선택된 메뉴의 1단계 메뉴코드를 확인한다
+	for(i=0;i<listtreeval.length;i++){
+		var tmp_innerhtml_str = "";
+		
+		for(j=0;j<listtreeval[i].length;j++){
+
+			// 1단계 메뉴는 시스템 명임
+			if(i==0){
+			
+			// 2단계 메뉴
+			}else if(i==1){
+
+				tmp_innerhtml_str = "<li class=\"depth1 pos_"+listtreeval[i][j][4]+"\">\r\n";
+				tmp_innerhtml_str = tmp_innerhtml_str + "<h3>"+listtreeval[i][j][1]+"</h3>\r\n";
+				tmp_innerhtml_str = tmp_innerhtml_str + "<ul id=\""+listtreeval[i][j][0]+"\" class=\"depth2\"></ul>\r\n";
+				tmp_innerhtml_str = tmp_innerhtml_str + "</li>\r\n"
+				
+				$("#sitemap_data").append(tmp_innerhtml_str);
+				
+			// 3단계이상 메뉴
+			}else if(i==2){
+
+				tmp_innerhtml_str = "<li><a href=\"#\" onclick=\"javascript:Go_SubmenuTop("+i+",'"+listtreeval[i][j][0]+"','"+listtreeval[i][j][2]+"','Y')\" >"+listtreeval[i][j][1]+"</a></li>\r\n";
+
+				$("#"+listtreeval[i][j][2]).append(tmp_innerhtml_str);
+			}
+			
+			
+
+
+			
+		
+		}// for문 종료
+
+		
+		
+
+		
+	}// for문 종료
+
+
+
+}
+
+
+
+//]]>           
+</script>
+
+
+<!--skip-->
+<dl id="skip">
+	<dt>바로가기 메뉴</dt>
+	<dd><a href="#container">본문 바로가기</a></dd>
+	<dd><a href="#gnb">메뉴 바로가기</a></dd>
+	<dd><a href="#footer">페이지 하단 바로가기</a></dd>
+</dl>
+<!--//skip-->
+
+
+
+<!--wrap-->
+<div id="wrap">
+
+	
+
+
+
+<script type="text/javascript" src="/js/S01Tree.js?version=20200102100644" charset="utf-8"></script>
+
+	<!--header-->
+	
+	<header id="header">
+		<!--hta : header title area 상단 로고, 유틸영역, 모바일 메뉴, 검색창 등을 포함합니다.-->
+		<div id="hta">
+			<!--inner-->
+			<div class="inner">
+				<h1 class="logo"><a href="/cmsmain.do?scode=S01&amp;pcode=main">전력데이터 개방 포털시스템</a></h1>
+				
+				<ul class="util">
+					
+					
+					<li><a href="/cmsmain.do?scode=S01&amp;pcode=000253">로그인</a></li>
+					<!--<li><a href="#" onclick="alert('임시오픈중에는 제공되지않는 기능입니다.');return false;">회원가입</a></li>-->
+					<li><a href="/cmsmain.do?scode=S01&amp;pcode=000138">회원가입</a></li>
+					
+					<li class="site_map_btn"><a href="#">사이트맵</a></li>
+				</ul>
+				<div class="search_top">
+					<fieldset>
+						<legend>통합검색</legend>
+						<div>
+							<label for="search_total">통합검색</label>
+							<input type="text" class="input_search ime_mode" name="search_total" id="search_total" value="" title="검색어 입력" placeholder="검색" />
+							<a class="btn_search" href="#">검색</a>
+						</div>
+					</fieldset>
+				</div>
+				<div class="mobile_hamburger">
+					<a href="/cmsmain.do?scode=S01&pcode=000414" class="mobile_search">검색</a>
+					<button class="gnb_open">열기<span class="stic_1"></span><span class="stic_2"></span><span class="stic_3"></span></button>
+				</div>
+			</div>
+			<!--//inner-->
+		</div>
+		<!--//hta-->
+		
+		<!--gnb-->
+		<nav id="gnb">
+			
+			<!--mobile_util-->
+			<div class="mobile_util">
+				<button class="gnb_close">닫기<span class="stic_1"></span><span class="stic_2"></span></button>
+			</div>
+			<!--//mobile_util-->
+			
+			<!--main_menu-->
+			<div class="main_menu">
+				<h2>주 메뉴 영역</h2>
+				<ul class="hit">
+					<!--  아이디어제안, 분석인프라 숨김, 공유센터 추가 이전
+					<li class="pos_0"><a href="#">데이터 공개</a></li>
+					<li class="pos_1"><a href="#">맞춤 데이터 제공</a></li>
+					<li class="pos_2"><a href="#">아이디어 제안</a></li>
+					<li class="pos_3"><a href="#">분석 인프라 지원</a></li>
+					<li class="pos_4"><a href="#">소통과 참여</a></li>
+					<li class="pos_5"><a href="#">센터소개</a></li>
+					-->
+					
+					<li class="pos_0"><a href="#">데이터 공개</a></li>
+					<li class="pos_1"><a href="#">맞춤 데이터 제공</a></li>
+					<li class="pos_2"><a href="#">아이디어 제안</a></li>
+					<li class="pos_3"><a href="#">공유 센터</a></li>
+					<li class="pos_4"><a href="#">소통과 참여</a></li>
+					<li class="pos_5"><a href="#">센터소개</a></li>
+		
+				</ul>
+			</div>
+			<!--//main_menu-->
+			
+			<!--sub_menu-->
+			<div id="mnb" class="sub_menu hit">
+				<h2>서브 메뉴 영역</h2>
+				<ul id="mnb_data">
+				
+				</ul>
+			</div>
+			<!--//sub_menu-->
+		</nav>
+		<!--//gnb-->
+		
+		<!--blank_layer-->
+		<div id="blank_layer"></div>
+		<!--//blank_layer-->
+	</header>
+	<!--//header-->
+		
+	
+
+<script type='text/javascript'>
+//<![CDATA[
+
+$(function() {
+	/*mnb*/		
+	mnbInit();
+	/*mnb*/
+	
+	//통합검색 엔터
+	$("#search_total").on("keydown", function(e) {
+		if (e.keyCode == 13) {
+			$(".btn_search").trigger("click");
+			return false;
+		}
+	});
+	
+	//통합검색 클릭
+	$(".btn_search").click(function(){
+		$("#search_total").val($.trim($("#search_total").val()));
+		
+		if ($("#search_total").val()=="") {
+			alert("검색어를 입력해주세요.");
+			return;
+		}
+		
+		var searchText = encodeURIComponent($("#search_total").val());
+		//location.href="/cmsmain.do?scode=S01&pcode=000414&searchText="+searchText;
+		$("form[name=pagego]").find("input[name=pcode]").val("000414");
+		$("form[name=pagego]").find("input[name=pstate]").val("L");
+		$("form[name=pagego]").append("<input type='hidden' name='searchText' id='searchText' value='"+$("#search_total").val()+"' />");
+		$("form[name=pagego]").attr("action","/cmsmain.do");
+		$("form[name=pagego]").attr("method","post");
+		$("form[name=pagego]").submit();		
+		
+	});
+	
+	$('.hit').mouseenter(function(){
+		if($windowWid > 900){
+			//alert('1234');
+			$('.sub_menu').stop().animate({'top':130},200);
+			$('#blank_layer').css('z-index','1');
+			$('#blank_layer').show();
+		}	
+	});
+	$('.main_menu a').focus(function(){
+		if($windowWid > 900){
+			$('.sub_menu').stop().animate({'top':130},200);
+			$('#blank_layer').css('z-index','1');
+			$('#blank_layer').show();
+		}	
+	});
+	$('.hit').mouseleave(function(){
+		if($windowWid > 900){									  
+			$('.sub_menu').stop().animate({'top':-200},200);
+			$('#blank_layer').hide();
+			$('#blank_layer').css('z-index','13');
+			
+		}
+	});
+	$('#container a').focus(function(){
+		if($windowWid > 900){									  
+			$('.sub_menu').stop().animate({'top':-200},200);
+			$('#blank_layer').hide();
+			$('#blank_layer').css('z-index','13');
+		}
+	});
+	
+
+	//모바일메뉴
+	$('#gnb .sub_menu .depth1').on('click',  function(){
+		if($windowWid < 900){
+			$('#gnb .sub_menu .depth1 ul').stop().slideUp(250);
+			$(this).find('ul').stop().slideDown(250);
+		}
+	});
+	
+});
+
+var selmCodes = "";
+var depth1_code = "";
+var selmArr = new Array();
+
+function mnbInit(){
+	
+	var prev_i = 0;
+	var depth1_ord = 1;
+	
+	selmCodes_sp = null;
+	
+	// 현재 선택된 메뉴의 1단계 메뉴코드를 확인한다
+	for(i=0;i<listtreeval.length;i++){
+		for(j=0;j<listtreeval[i].length;j++){
+			if(listtreeval[i][j][0]=="000166"){
+				selmCodes = listtreeval[i][j][6];
+				selmArr = listtreeval[i][j];
+				break;
+			}
+		}
+	}
+	
+	if(selmCodes!=""){
+		selmCodes_sp = selmCodes.split("::"); 
+		depth1_code = selmCodes_sp[1];
+		for(i=0;i<listtreeval[0].length;i++){
+			if(listtreeval[0][i][0]==depth1_code){
+				depth1_ord=parseInt(listtreeval[0][i][4])+1;
+				break;
+			}
+		}		
+	}
+	
+	// 현재 선택된 메뉴의 1단계 메뉴코드를 확인한다
+	for(i=0;i<4;i++){
+		var tmp_innerhtml_str = "";
+		var tmp_left_str = "";
+
+		for(j=0;j<listtreeval[i].length;j++){
+
+			//console.log(i+":"+j+":\r\n"+listtreeval[i][j][0]+"\r\n"+listtreeval[i][j][1]+"\r\n"+listtreeval[i][j][2]+"\r\n"+listtreeval[i][j][3]+"\r\n"+listtreeval[i][j][4]+"\r\n"+listtreeval[i][j][5]+"\r\n"+listtreeval[i][j][6]+"\r\n"+listtreeval[i][j][7]+"\r\n");
+			// 1단계 메뉴는 시스템 명임
+			if(i==0){
+		
+			// 2단계 메뉴
+			}else if(i==1){
+				// top_menu는 6개까지만
+				// 아이디어제안, 분석인프라 숨김, 공유센터 추가로 5개까지만
+				if(j<6){
+					tmp_innerhtml_str = tmp_innerhtml_str + "<li id=\"mnb_0"+(j+1)+"\" class=\"depth"+(i)+" pos_"+j+"\">\r\n";
+					tmp_innerhtml_str = tmp_innerhtml_str + "<h3 id=\"h2menu_"+listtreeval[i][j][0]+"\" class=\"\"><a href=\"javascript:Go_SubmenuTop("+i+",'"+listtreeval[i][j][0]+"','"+listtreeval[i][j][2]+"','Y')\" >"+listtreeval[i][j][1]+"</a></h2>\r\n";
+				}
+									
+					if(listtreeval[i][j][6].indexOf("000048") > -1){
+						tmp_left_str = tmp_left_str+"<h2>"+listtreeval[i][j][1]+"</h2>";
+						tmp_left_str = tmp_left_str+"<ul id=\"leftmenu_"+listtreeval[i][j][0]+"\"></ul>";
+					}
+				
+					
+
+				
+			// 3단계이상 메뉴
+			}else if(i>1){
+				tmp_innerhtml_str="";
+				tmp_left_str = "";
+				tmp_innerhtml_str = tmp_innerhtml_str + "<li id=\"menu_"+listtreeval[i][j][0]+"\">\r\n";
+				tmp_innerhtml_str = tmp_innerhtml_str + "<a href=\"javascript:Go_SubmenuTop("+i+",'"+listtreeval[i][j][0]+"','"+listtreeval[i][j][2]+"','Y')\" class=\"\">"+listtreeval[i][j][1]+"</a>\r\n";
+				tmp_innerhtml_str = tmp_innerhtml_str + "</li>\r\n";
+								
+				if(listtreeval[i][j][6].indexOf("000048") > -1){
+					tmp_left_str = tmp_left_str+"<li>";
+					if(selmCodes.indexOf(listtreeval[i][j][0]) > -1){
+						tmp_left_str = tmp_left_str+"<a class=\"on\" href=\"javascript:Go_SubmenuTop("+i+",'"+listtreeval[i][j][0]+"','"+listtreeval[i][j][2]+"','Y')\" class=\"\">"+listtreeval[i][j][1]+"</a>";
+					}else{
+						tmp_left_str = tmp_left_str+"<a class=\"\" href=\"javascript:Go_SubmenuTop("+i+",'"+listtreeval[i][j][0]+"','"+listtreeval[i][j][2]+"','Y')\" class=\"\">"+listtreeval[i][j][1]+"</a>";
+					}
+					
+					if(listtreeval[i][j][10] > 0){
+						if(selmCodes.indexOf(listtreeval[i][j][0]) > -1){
+							tmp_left_str = tmp_left_str+"<ul class=\"lnd_depth2 on\" id=\"leftmenu_"+listtreeval[i][j][0]+"\"></ul>";
+						}else{
+							tmp_left_str = tmp_left_str+"<ul class=\"lnd_depth2\" id=\"leftmenu_"+listtreeval[i][j][0]+"\"></ul>";
+						}
+					}
+					tmp_left_str = tmp_left_str + "</li>\r\n";
+				}
+				
+			}
+			
+
+			// 1단계 메뉴
+			if(i==0){
+				tmp_innerhtml_str = "";
+			// 2단계 메뉴
+			}else if(i==1){
+				// 아이디어제안, 분석인프라 숨김, 공유센터 추가로 5개까지만
+				if(j<6){
+					tmp_innerhtml_str = tmp_innerhtml_str + "<ul id=\"upmenu_"+listtreeval[i][j][0]+"\" class=\"depth"+(i+1)+"\"></ul>\r\n";
+					tmp_innerhtml_str = tmp_innerhtml_str + "</li>";
+				}
+			// 3단계이상 메뉴
+			}else if(i>1){
+				//tmp_innerhtml_str = tmp_innerhtml_str + "<ul id=\"upmenu_"+listtreeval[i][j][0]+"\" class=\"depth"+(i+1)+"\"></ul></li>\r\n";
+				
+			}
+			
+			// 트리의 값을 셋팅한다
+			/*[0];//' M_CODE	[1];//' M_NM	[2];//' M_UP_CODE	[3];//' DEPTH_NO	[4];//' ORDER_NO	[5];//' LINK_TY
+			[6];//' M_CODES
+			[7];//' LV
+			*/
+			// 3단계이상 메뉴는 상위메뉴를 찾아서 append한다
+			if(i>1){
+				if(i<3){
+					$("#upmenu_"+listtreeval[i][j][2]).html($("#upmenu_"+listtreeval[i][j][2]).html()+tmp_innerhtml_str);
+				}
+				
+				
+				if(listtreeval[i][j][6].indexOf("000048") > -1){
+					$("#leftmenu_"+listtreeval[i][j][2]).html($("#leftmenu_"+listtreeval[i][j][2]).html()+tmp_left_str);
+				}
+				
+			}
+		}// for문 종료
+		// 2단계 메뉴는 먼저 셋팅한다
+		if(i==1){
+				$("#mnb_data").html($("#mnb_data").html()+tmp_innerhtml_str);
+								
+					//if(){
+						//console.log(tmp_left_str);
+						$("#left_nav").html($("#left_nav").html()+tmp_left_str);
+					//}
+					
+					
+				
+
+		}
+		
+		if(prev_i==1 && i==2){
+			//$("#mnb_data").html($("#mnb_data").html()+"<li class=\"nav_bg\"><img src=\"/images/S01/common/nav_bg.png\" alt=\" \"/></li>");
+		}		
+		prev_i = i;
+		
+	}// for문 종료
+
+	//서브페이지 일경우 상단 visual영역의 class를 지정해준다
+	
+		$("#h2menu_000048").addClass("on");
+		
+	
+	
+
+}
+
+
+$('.pos_0').mouseover(function(){
+	$('.sub_menu .pos_0').addClass('over');
+	$('.main_menu .pos_0').addClass('over');
+});
+$('.pos_0').mouseleave(function(){
+	$('.sub_menu .pos_0').removeClass('over');
+	$('.main_menu .pos_0').removeClass('over');
+});
+$('.pos_1').mouseover(function(){
+	$('.sub_menu .pos_1').addClass('over');
+	$('.main_menu .pos_1').addClass('over');
+});
+$('.pos_1').mouseleave(function(){
+	$('.sub_menu .pos_1').removeClass('over');
+	$('.main_menu .pos_1').removeClass('over');
+});
+$('.pos_2').mouseover(function(){
+	$('.sub_menu .pos_2').addClass('over');
+	$('.main_menu .pos_2').addClass('over');
+});
+$('.pos_2').mouseleave(function(){
+	$('.sub_menu .pos_2').removeClass('over');
+	$('.main_menu .pos_2').removeClass('over');
+});
+$('.pos_3').mouseover(function(){
+	$('.sub_menu .pos_3').addClass('over');
+	$('.main_menu .pos_3').addClass('over');
+});
+$('.pos_3').mouseleave(function(){
+	$('.sub_menu .pos_3').removeClass('over');
+	$('.main_menu .pos_3').removeClass('over');
+});
+$('.pos_4').mouseover(function(){
+	$('.sub_menu .pos_4').addClass('over');
+	$('.main_menu .pos_4').addClass('over');
+});
+$('.pos_4').mouseleave(function(){
+	$('.sub_menu .pos_4').removeClass('over');
+	$('.main_menu .pos_4').removeClass('over');
+});
+$('.pos_5').mouseover(function(){
+	$('.sub_menu .pos_5').addClass('over');
+	$('.main_menu .pos_5').addClass('over');
+});
+$('.pos_5').mouseleave(function(){
+	$('.sub_menu .pos_5').removeClass('over');
+	$('.main_menu .pos_5').removeClass('over');
+});
+
+/*gnb click*/
+$('#gnb .depth1').click(function(){
+	if($windowWid < 900){
+		if($(this).hasClass('active')) {
+			$(this).removeClass('active');	
+		} else {
+			$('#gnb .depth1').removeClass('active');
+			$(this).addClass('active');
+			$('#gnb .depth1 .depth2').parent().not(this).find('.depth2').stop().slideUp(250);
+			$(this).find('.depth2').stop().slideDown(250);
+		}
+	}
+});
+$('#gnb .depth1 > span').click(function(){
+	if($windowWid < 900){									
+		$('#gnb .depth2').stop().slideUp(250);
+	}
+});
+
+
+
+var cur_deny_mcodes = new Array();
+var link_go_yn = false;
+/**
+ * 메뉴이동 공통함수
+ * lev    : 메뉴레벨
+ * m_code : 메뉴코드
+ * p_up   : 상위코드
+ * inityn : ?
+ */
+ function Go_SubmenuTop(lev, m_code, p_up, inityn){
+	 
+	/* if(m_code=='000048' && p_up == 'S01'){ */
+	if($windowWid < 900){
+		if(p_up == 'S01') {
+			return;
+		}
+	}
+	
+	var cur_link_arr = new Array();
+	var lv_link_chk = "0"; // 0 : 루프를 한단계 통과한다 1 : 하위메뉴체크 2: 선택된 메뉴
+	var deny_chk = false;
+
+	//console.log("lev:"+lev+":m_code:"+m_code+":p_up:"+p_up+":inityn:"+inityn);
+	if(inityn=="Y"){
+	//console.log("lev:"+lev+":m_code:"+m_code+":p_up:"+p_up+":inityn:"+inityn);
+		cur_deny_mcodes = new Array();
+	}
+	//console.log("lev:"+lev+":m_code:"+m_code+":p_up:"+p_up+":inityn:"+inityn);
+	//for(si=lev;si<listtreeval.length;si++){
+		for(sj=0;sj<listtreeval[lev].length;sj++){
+			//console.log(sj+"::lv_link_chk::"+lv_link_chk);
+			deny_chk = false;
+			// 선택된 메뉴이면
+			if(lv_link_chk == "2"){
+				links_go(cur_link_arr);
+				link_go_yn=true;
+				break;
+			// 선택된 메뉴가 아니면 하위 메뉴를 체크한다
+			}else if(lv_link_chk == "1"){
+				//var chk_cnt = SubMenuCnt(lev+1, cur_link_arr[0]);
+				var chk_cnt = cur_link_arr[10];
+				// 하위메뉴가 있으면
+				if(chk_cnt > 0){
+					Go_SubmenuTop(lev+1, cur_link_arr[0],cur_link_arr[0], "N"); 
+					break;
+				// 하위메뉴가 없으면 동레벨을 다시 체크한다
+				}else{
+					cur_deny_mcodes.push(cur_link_arr[0]);
+					Go_SubmenuTop(lev, cur_link_arr[0],cur_link_arr[2], "N");
+					break;
+				}
+			// 루프를 한단계 통과
+			}else{
+
+			}
+			if(listtreeval[lev][sj][2] == "0000000531"){
+				//console.log(inityn+"::upcode::"+listtreeval[lev][sj][2]+"p_up"+p_up);
+			}
+			// 현재 메뉴코드가 같거나 초기체크가아니고 상위메뉴코드가 동일할경우
+			if(listtreeval[lev][sj][0]==m_code || (inityn!="Y" && listtreeval[lev][sj][2]==p_up)){
+				cur_link_arr = listtreeval[lev][sj];
+				cur_link_ty = listtreeval[lev][sj][5];
+				//console.log("cur_menu:"+cur_link_arr[0]+"::"+cur_link_arr[1]);
+				for(sk=0;sk<cur_deny_mcodes.length;sk++){
+					if(cur_deny_mcodes[sk]==cur_link_arr[0]){
+						//console.log("deny_menu:"+cur_link_arr[0]+"::"+cur_link_arr[1]);
+						deny_chk = true;
+						break;
+					}
+				}
+
+				if(deny_chk == false){
+					// 없음 이거나 링크이면
+					if(cur_link_ty == "000005" || cur_link_ty == "000007"){
+						// 초기 선택메뉴이면
+						if(inityn=="Y"){
+							// 링크이면
+							if(cur_link_ty == "000007"){
+								lv_link_chk = "2";
+							// 없음이면
+							}else if(cur_link_ty == "000005"){
+								lv_link_chk = "1";
+							}
+						}else{
+							lv_link_chk = "1";
+						}
+						
+					}else{
+						lv_link_chk = "2";
+					}
+				}else{
+					lv_link_chk = "0";
+				}
+				//console.log("::upcode::"+listtreeval[lev][sj][0]+":lv_link_chk:"+lv_link_chk);
+			}
+		}
+
+		if(lv_link_chk=="2"){
+			
+			if(link_go_yn==false){
+				links_go(cur_link_arr);
+				link_go_yn=true;
+			}else{
+				return;
+			}
+			
+		// 선택된 메뉴가 아니면 하위 메뉴를 체크한다
+		}else if(lv_link_chk == "1"){
+			//var chk_cnt = SubMenuCnt(lev+1, cur_link_arr[0]);
+			var chk_cnt = cur_link_arr[10];
+			// 하위메뉴가 있으면
+			if(chk_cnt > 0){
+				Go_SubmenuTop(lev+1, cur_link_arr[0],cur_link_arr[0], "N"); 
+
+			// 하위메뉴가 없으면 동레벨을 다시 체크한다
+			}else{
+				cur_deny_mcodes.push(cur_link_arr[0]);
+				Go_SubmenuTop(lev, cur_link_arr[0],cur_link_arr[2], "N");
+			}
+			
+		}
+		
+
+	//}
+}
+
+function links_go(link_arr){
+//console.log("link_arr"+link_arr[0]);
+
+		// 연결종류가 링크이면
+		if(link_arr[5] == "000007"){
+
+			// 현재창링크이면
+			if(link_arr[9]=="_self"){
+				// 외부주소이면
+				if(link_arr[8].indexOf("http") > -1){
+					location.href=link_arr[8].replace(/&amp;/gi,"&");
+				// 내부연결이면
+				}else{
+					location.href=""+link_arr[8].replace(/&amp;/gi,"&");
+				}
+			// 새창링크이면
+			}else{
+				// 외부주소이면
+				if(link_arr[8].indexOf("http") > -1){
+					//링크도 조회수를 체크하기 위하여 hidden iframe으로 보내준다
+					successIframe.location.href="/cmsmain.do?scode=S01&pcode="+link_arr[0];
+					window.open(link_arr[8].replace(/&amp;/gi,"&"),"_blank");
+
+					
+				// 내부연결이면
+				}else{
+					window.open(""+link_arr[8].replace(/&amp;/gi,"&"),"_blank");
+				
+				}
+			}
+		}else{
+			location.href="/cmsmain.do?scode=S01&pcode="+link_arr[0];
+			
+		}
+}
+
+function Go_SubmenuView(pcode, sidx){
+	$("form[name=pagego]").find("input[name=pcode]").val(pcode);
+	$("form[name=pagego]").find("input[name=sidx]").val(sidx);
+	$("form[name=pagego]").find("input[name=pstate]").val("R");
+	$("form[name=pagego]").attr("action","/cmsmain.do");
+	$("form[name=pagego]").submit();
+}
+
+//]]>           
+</script>       
+<!-- 공통 jsp 파일-->
+
+	<!--container-->
+	<div id="container">
+				
+				<div id="lnb">
+					
+
+
+			<!--inner-->
+			<div class="inner" id='nav_inner'>
+				<div class="home">
+					<a href="/">home</a>
+				</div>
+			</div>
+			<!--//inner-->
+			
+			
+<script type="text/javascript">
+//<![CDATA[
+           
+//TODO : $(function()
+$(function(){
+	//alert("selmCodes::"+selmArr[10]);
+	var tab_print_yn = false;
+	var tab_print_str = "";
+	var temp_menu = "";
+	
+	// 현재 메뉴 레벨이 3레벨 이상인 경우 동일 메뉴목록으로 탭을 생성한다
+	//console.log('==================== '+selmArr[0]+' === '+selmArr[1]+' === '+selmArr[2]+' === '+selmArr[7]+' === '+selmArr[10]);
+	//console.log('listtreeval[1]== '+listtreeval[1]);
+	//console.log(selmCodes);
+	//console.log(listtreeval[1]);
+	//alert(selmCodes_sp[1]);
+	
+	//1depth메뉴 출력
+	if(selmCodes_sp!=null && selmCodes_sp!=undefined){
+		if(selmCodes_sp[1] != undefined){
+			tab_print_str = "<div class=\"drop_nav depth1\">\r\n";
+			tab_print_str = tab_print_str+"<h4 class=\"current\">\r\n";
+			if(selmCodes_sp[1] == '000048'){
+				tab_print_str = tab_print_str+"<span class=\"plus\"><a href=\"#\">더보기</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_prev\"><a href=\"https://bigdata.kepco.co.kr/cmsmain.do?scode=S01&pcode=000162\">이전</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_next\"><a href=\"https://bigdata.kepco.co.kr/cmsmain.do?scode=S01&pcode=000165\">다음</a></span>\r\n";
+			}else if(selmCodes_sp[1] == '000063'){
+				tab_print_str = tab_print_str+"<span class=\"plus\"><a href=\"#\">더보기</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_prev\"><a href=\"https://bigdata.kepco.co.kr/cmsmain.do?scode=S01&pcode=000166\">이전</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_next\"><a href=\"https://bigdata.kepco.co.kr/cmsmain.do?scode=S01&pcode=000399\">다음</a></span>\r\n";
+			}else if(selmCodes_sp[1] == '000104'){
+				tab_print_str = tab_print_str+"<span class=\"plus\"><a href=\"#\">더보기</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_prev\"><a href=\"https://bigdata.kepco.co.kr/cmsmain.do?scode=S01&pcode=000165\">이전</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_next\"><a href=\"https://bigdata.kepco.co.kr/cmsmain.do?scode=S01&pcode=000468\">다음</a></span>\r\n";
+			}else if(selmCodes_sp[1] == '000469'){
+				tab_print_str = tab_print_str+"<span class=\"plus\"><a href=\"#\">더보기</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_prev\"><a href=\"https://bigdata.kepco.co.kr/cmsmain.do?scode=S01&pcode=000399\">이전</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_next\"><a href=\"https://bigdata.kepco.co.kr/cmsmain.do?scode=S01&pcode=000115\">다음</a></span>\r\n";
+			}else if(selmCodes_sp[1] == '000090'){
+				tab_print_str = tab_print_str+"<span class=\"plus\"><a href=\"#\">더보기</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_prev\"><a href=\"https://bigdata.kepco.co.kr/cmsmain.do?scode=S01&pcode=000468\">이전</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_next\"><a href=\"https://bigdata.kepco.co.kr/cmsmain.do?scode=S01&pcode=000162\">다음</a></span>\r\n";
+			}else if(selmCodes_sp[1] == '000156'){
+				tab_print_str = tab_print_str+"<span class=\"plus\"><a href=\"#\">더보기</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_prev\"><a href=\"https://bigdata.kepco.co.kr/cmsmain.do?scode=S01&pcode=000115\">이전</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_next\"><a href=\"https://bigdata.kepco.co.kr/cmsmain.do?scode=S01&pcode=000166\">다음</a></span>\r\n";
+			}else if(selmCodes_sp[1] == '000121'){
+				tab_print_str = tab_print_str+"<span class=\"plus\"><a href=\"#\">더보기</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_prev\"><a href=\"#\">이전</a></span>\r\n";
+				tab_print_str = tab_print_str+"<span class=\"m_next\"><a href=\"#\">다음</a></span>\r\n";
+			}
+			tab_print_str = tab_print_str+"</h4>\r\n";
+			tab_print_str = tab_print_str+"<ul>\r\n";
+			for(i=0;i<listtreeval[1].length;i++){
+				// 상위 코드가 동일한 메뉴를 출력한다
+				if(listtreeval[1][i][2]==selmCodes_sp[0]){
+					if(listtreeval[1][i][0]==selmCodes_sp[1]){
+						tab_print_str = tab_print_str+"<li><a href=\"#\" class=\"on\" onclick=\"javascript:Go_SubmenuTop("+1+",'"+listtreeval[1][i][0]+"','"+listtreeval[1][i][2]+"','Y');return false;\">"+listtreeval[1][i][1]+"</a></li>\r\n";
+						temp_menu = listtreeval[1][i][1];
+					}else{
+						tab_print_str = tab_print_str+"<li><a href=\"#\" class=\"\" onclick=\"javascript:Go_SubmenuTop("+1+",'"+listtreeval[1][i][0]+"','"+listtreeval[1][i][2]+"','Y');return false;\">"+listtreeval[1][i][1]+"</a></li>\r\n";
+					}
+				}
+			}
+			tab_print_str = tab_print_str+"</ul>\r\n";
+			tab_print_str = tab_print_str+"</div>\r\n";
+			$('#nav_inner').append(tab_print_str);
+			$('.depth1 > h4 > span:first').before(temp_menu);
+			
+		}
+		
+		//2depth메뉴 출력
+		if(selmCodes_sp[2] != undefined){
+			tab_print_str = "<div class=\"drop_nav mo_sub depth2\">\r\n";
+			tab_print_str = tab_print_str+"<h4 class=\"current\">\r\n";
+			tab_print_str = tab_print_str+"<span class=\"plus\"><a href=\"#\">더보기</a></span>\r\n";
+			tab_print_str = tab_print_str+"</h4>\r\n";
+			tab_print_str = tab_print_str+"<ul>\r\n";
+			for(i=0;i<listtreeval[2].length;i++){
+				// 상위 코드가 동일한 메뉴를 출력한다
+				if(listtreeval[2][i][2]==selmCodes_sp[1]){
+					if(listtreeval[2][i][0]==selmCodes_sp[2]){
+						tab_print_str = tab_print_str+"<li><a href=\"#\" class=\"on\" onclick=\"javascript:Go_SubmenuTop("+2+",'"+listtreeval[2][i][0]+"','"+listtreeval[2][i][2]+"','Y');return false;\">"+listtreeval[2][i][1]+"</a></li>\r\n";
+						temp_menu = listtreeval[2][i][1];
+					}else{
+						if("N" != "N" && listtreeval[2][i][0] == "000122"){
+							
+						}else if("N" == "N" && listtreeval[2][i][0] == "000404"){	
+							
+						}else{
+							tab_print_str = tab_print_str+"<li><a href=\"#\" class=\"\" onclick=\"javascript:Go_SubmenuTop("+2+",'"+listtreeval[2][i][0]+"','"+listtreeval[2][i][2]+"','Y');return false;\">"+listtreeval[2][i][1]+"</a></li>\r\n";
+						}
+						
+					}
+				}
+			}
+			tab_print_str = tab_print_str+"</ul>\r\n";
+			tab_print_str = tab_print_str+"</div>\r\n";
+			$('#nav_inner').append(tab_print_str);
+			$('.depth2 > h4 > span').before(temp_menu);
+			
+		}
+		
+		
+		//3depth메뉴 출력
+		if(selmCodes_sp[3] != undefined){
+			tab_print_str = "<div class=\"drop_nav mo_sub depth3\">\r\n";
+			tab_print_str = tab_print_str+"<h4 class=\"current\">\r\n";
+			tab_print_str = tab_print_str+"<span class=\"plus\"><a href=\"#\">더보기</a></span>\r\n";
+			tab_print_str = tab_print_str+"</h4>\r\n";
+			tab_print_str = tab_print_str+"<ul>\r\n";
+			for(i=0;i<listtreeval[3].length;i++){
+				// 상위 코드가 동일한 메뉴를 출력한다
+				if(listtreeval[3][i][2]==selmCodes_sp[2]){
+					if(listtreeval[3][i][0]==selmCodes_sp[3]){
+						tab_print_str = tab_print_str+"<li><a href=\"#\" class=\"on\" onclick=\"javascript:Go_SubmenuTop("+3+",'"+listtreeval[3][i][0]+"','"+listtreeval[3][i][2]+"','Y');return false;\">"+listtreeval[3][i][1]+"</a></li>\r\n";
+						temp_menu = listtreeval[3][i][1];
+					}else{
+						if(listtreeval[3][i][0] == '000397'){
+							tab_print_str = tab_print_str+"<li><a href=\"#\" class=\"\" onclick=\"alert('서비스 개선 작업중 입니다. 빠른시일 내에 서비스 하겠습니다.');return false;\">"+listtreeval[3][i][1]+"</a></li>\r\n";
+						}else{
+							tab_print_str = tab_print_str+"<li><a href=\"#\" class=\"\" onclick=\"javascript:Go_SubmenuTop("+3+",'"+listtreeval[3][i][0]+"','"+listtreeval[3][i][2]+"','Y');return false;\">"+listtreeval[3][i][1]+"</a></li>\r\n";	
+						}
+					}
+				}
+			}
+			tab_print_str = tab_print_str+"</ul>\r\n";
+			tab_print_str = tab_print_str+"</div>\r\n";
+			$('#nav_inner').append(tab_print_str);
+			$('.depth3 > h4 > span').before(temp_menu);
+			
+		}
+		
+		//4depth메뉴 출력
+		if(selmCodes_sp[4] != undefined){
+			tab_print_str = "<div class=\"drop_nav mo_sub depth4\">\r\n";
+			tab_print_str = tab_print_str+"<h4 class=\"current\">\r\n";
+			tab_print_str = tab_print_str+"<span class=\"plus\"><a href=\"#\">더보기</a></span>\r\n";
+			tab_print_str = tab_print_str+"</h4>\r\n";
+			tab_print_str = tab_print_str+"<ul>\r\n";
+			for(i=0;i<listtreeval[4].length;i++){
+				// 상위 코드가 동일한 메뉴를 출력한다
+				if(listtreeval[4][i][2]==selmCodes_sp[3]){
+					if(listtreeval[4][i][0]==selmCodes_sp[4]){
+						tab_print_str = tab_print_str+"<li><a href=\"#\" class=\"on\" onclick=\"javascript:Go_SubmenuTop("+4+",'"+listtreeval[4][i][0]+"','"+listtreeval[4][i][2]+"','Y');return false;\">"+listtreeval[4][i][1]+"</a></li>\r\n";
+						temp_menu = listtreeval[4][i][1];
+					}else{
+						tab_print_str = tab_print_str+"<li><a href=\"#\" class=\"\" onclick=\"javascript:Go_SubmenuTop("+4+",'"+listtreeval[4][i][0]+"','"+listtreeval[4][i][2]+"','Y');return false;\">"+listtreeval[4][i][1]+"</a></li>\r\n";
+					}
+				}
+			}
+			tab_print_str = tab_print_str+"</ul>\r\n";
+			tab_print_str = tab_print_str+"</div>\r\n";
+			$('#nav_inner').append(tab_print_str);
+			$('.depth4 > h4 > span').before(temp_menu);
+			
+		}
+		
+		
+		/*lnb 트리*/
+	/* 	$("#lnb .current").click(function(e){
+			e.preventDefault();
+			if($(this).hasClass('active')) {
+				$(this).removeClass('active');
+				$(this).parent().find("ul").slideUp(100);
+				$("#lnb .current").find("span").removeClass('minus');
+			} else {
+				$("#lnb .current").removeClass('active');
+				$("#lnb .current").find("span").removeClass('minus');
+				$(this).find("span").addClass('minus');
+				$(this).addClass('active');
+				$("#lnb .current").parent().not(this).find("ul").slideUp(100);
+				$(this).parent().find("ul").slideToggle(100);
+			}
+			
+		}); */
+		/*//lnb*/
+		
+		$("#lnb .drop_nav").mouseover(function(){
+			$(this).find("span").addClass('minus');
+			$(this).find("ul").stop().slideDown(100);
+		});
+		$('#lnb .drop_nav').mouseleave(function(){
+			$(this).find("span").removeClass('minus');								   
+			$(this).parent().find("ul").stop().slideUp(100);
+		});		
+	}
+
+
+	
+});
+
+
+//]]>
+</script><!-- 공통 jsp 파일-->
+				</div>
+				
+				<!--content-->
+				<div id="contents">
+	
+					
+						
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 공통 jsp 파일-->
+
+		
+					
+					
+					<!--내용시작  -->
+					
+						  
+
+
+<script type="text/javascript" src="/js/highcharts/highcharts.js"></script>  <!-- 하이차트js -->
+<!--<script type="text/javascript" src="/js/highcharts/series-label.js"></script>  꺾은선그래프 라벨관련 js --> <!-- 라벨숨김처리 버그있음 -->
+<script type="text/javascript" src="/js/highcharts/exporting.js"></script>   <!-- 하이차트 옵션 파일내보내기관련 js -->
+<script type="text/javascript" src="/js/highcharts/export-data.js"></script> <!-- 하이차트 옵션 파일내보내기관련 js -->
+
+<style type="text/css">
+	.jqplot-yaxis-tick {right:0; top:15px; text-align:right; display:block;}
+</style>
+
+	<form name="listfrm" id="listfrm" method="post" onSubmit='javascript:return false;srchCheck();' >
+		<input type="hidden" name="scode" value="S01" id="scode" title="사이트코드" />
+		<input type="hidden" name="pcode" value="000166" id="pcode" title="페이지코드" />
+		<input type="hidden" name="pstate" value="L" id="pstate" title="페이지상태" />
+		<input type="hidden" name="yyyy" value="" id="yyyy" title="선택된 년도" />
+		<input type="hidden" name="cbCntrCnt" value="" id="cbCntrCnt" title="추출정보선택수" />
+		<input type="hidden" id="ssEmpNm" name="ssEmpNm" value="N"  title="로그인이름" />
+		<input type="hidden" id="searchSiDoNm" name="searchSiDoNm" value="N"  title="조회시도명" />
+		<input type="hidden" id="searchGuGunNm" name="searchGuGunNm" value="N"  title="조회시군구명" />
+		
+			
+			<h5 class="main_title">
+		        <strong>계약종별 전력사용량</strong>
+		        <p class="copy">전력데이터 개방 계약종별 전력사용량입니다.</p>
+		    </h5>
+		    
+			<!--search-->
+			<div class="multi_search">
+				<div class="column_1">
+					<div id="national_map">
+						<img src="/images/contents/national_map.png" border="0" usemap="#Map">
+						<map name="Map" id="Map">
+							<area shape="poly" coords="61,97,67,109,81,115,91,111,94,104,87,94,75,91,71,98" href="#" id="map_se" onclick="return false;" alt="11"> <!-- 서울 -->
+							<area shape="poly" coords="50,78,40,72,26,81,21,95,42,118,53,115,57,119,66,110,60,98,50,95,49,92,48,89" href="#" id="map_ic" onclick="return false;" alt="23"> <!-- 인천 -->
+							<area shape="poly" coords="160,239,160,257,155,264,177,266,182,256,181,249,186,238,178,232" href="#" id="map_dg" onclick="return false;" alt="22"> <!-- 대구 -->
+							<area shape="poly" coords="211,257,218,264,222,261,233,263,224,292,215,289,208,283,202,276,203,268" href="#" id="map_us" onclick="return false;" alt="26"> <!-- 울산 -->
+							<area shape="poly" coords="170,315,172,320,183,318,191,321,223,293,216,290,213,288,199,298,188,307,181,309,171,314" href="#" id="map_bs" onclick="return false;" alt="21"> <!-- 부산 -->
+							<area shape="poly" coords="56,310,56,303,60,297,74,295,79,303,76,316,59,311" href="#" id="map_gj" onclick="return false;" alt="24"> <!-- 광주 -->
+							<area shape="poly" coords="80,41,64,50,65,61,59,67,59,76,51,79,50,85,49,91,51,95,68,97,73,91,87,92,94,104,91,111,80,115,67,110,58,118,52,129,55,137,51,145,57,151,65,151,71,156,96,156,110,143,125,135,123,112,128,107,125,100,117,99,110,81,112,72,104,56,95,56" href="#" id="map_gg" onclick="return false;" alt="31"> <!-- 경기 -->
+							<area shape="poly" coords="83,40,93,34,108,33,125,24,131,12,139,7,148,6,152,3,164,13,193,57,208,104,219,118,209,135,201,140,186,139,179,144,162,144,154,134,147,130,140,135,127,135,124,112,128,107,125,99,117,98,110,81,112,72,103,55,93,54" href="#"  id="map_gw" onclick="return false;" alt="32"> <!-- 강원 -->
+							<area shape="poly" coords="97,179,102,189,92,208,115,223,114,231,132,232,141,223,143,211,128,206,128,198,132,195,134,189,129,185,148,161,166,162,179,144,161,144,153,134,146,131,139,136,127,135,119,141,109,144,98,154,97,164,100,167,100,174" href="#" id="map_cb" onclick="return false;" alt="33"> <!-- 충북 -->
+							<area shape="poly" coords="95,212,115,224,113,236,104,237,101,228,92,227,87,232,81,228,80,223,73,220,67,230,57,234,53,231,48,227,49,220,46,209,35,209,28,195,31,185,18,176,34,147,49,146,55,151,63,152,70,157,96,156,100,169,97,179,84,186,78,193,80,205" href="#" id="map_cn" onclick="return false;" alt="34"> <!-- 충남 -->
+							<area shape="poly" coords="158,258,154,264,149,263,138,253,132,243,133,232,142,224,144,212,143,210,128,205,127,199,132,195,134,189,129,185,149,161,166,163,183,141,188,139,203,140,209,136,219,122,231,164,226,189,228,227,238,221,234,262,224,261,219,263,212,257,203,266,195,266,185,268,179,266,182,256,181,250,187,240,180,233,176,233,161,238,159,256,154,264" href="#" id="map_gb" onclick="return false;" alt="37"> <!-- 경북 -->
+							<area shape="poly" coords="132,244,138,254,148,264,155,265,176,267,185,269,194,267,201,267,200,276,206,284,212,286,205,294,197,296,189,305,179,307,168,315,171,321,182,319,190,322,192,328,175,343,162,339,154,342,153,346,143,349,138,345,132,347,123,327,121,301,114,293,117,285,117,274,120,268,118,256" href="#" id="map_gn" onclick="return false;" alt="38"> <!-- 경남 -->
+							<area shape="poly" coords="114,233,123,233,132,234,131,243,118,255,118,268,116,273,116,285,113,293,106,295,98,293,86,292,68,280,58,284,54,290,47,291,37,289,36,280,42,264,50,256,51,246,47,241,46,228,55,232,56,235,64,233,73,221,79,223,81,229,87,233,90,228,100,231,102,237,112,238" href="#"  id="map_jb" onclick="return false;" alt="35">  <!-- 전북 -->
+							<area shape="poly" coords="48,292,53,300,54,312,73,321,78,319,83,306,78,295,60,294,56,299,50,293,56,289,58,286,67,280,87,293,99,293,104,296,113,295,119,301,123,318,121,328,131,347,130,352,123,358,116,356,113,359,115,371,105,375,98,372,88,378,87,383,69,386,49,383,43,377,31,378,26,387,9,395,1,385,13,365,1,349,15,328,9,320,15,307,25,305,37,290,49,293" href="#" id="map_jn" onclick="return false;" alt="36">  <!-- 전남 -->
+							<area shape="poly" coords="20,430,26,422,47,416,55,411,67,421,64,435,47,444,26,447,19,435" href="#" id="map_je" onclick="return false;" alt="39">  <!-- 제주 -->
+							<area shape="poly" coords="247,86,260,86,265,100,259,114,252,115,247,109,242,97" id="map_ul" onclick="return false;" alt="울릉도" style="cursor:default;">  <!-- 울릉도 -->
+							<area shape="poly" coords="278,104,284,102,289,104,288,116,280,122,276,116,276,106" id="map_dd" onclick="return false;" alt="독도" style="cursor:default;">  <!-- 독도 -->
+							<area shape="poly" coords="80,198,85,198,89,198,92,197,96,198,93,205,90,210,81,206,79,201,79,197" href="#" id="map_dj" onclick="return false;" alt="25"> <!-- 대전 -->
+							<area shape="poly" coords="80,198,78,193,84,188,91,184,96,181,101,188,101,192,97,197,83,197" href="#" id="map_sj" onclick="return false;" alt="41"> <!-- 세종 -->
+						</map>
+					</div>
+				</div>
+				<fieldset class="column_2">
+					<legend>계약종별 전력사용량 검색</legend>
+					<div class="ms_group">
+						<span class="ms_tit">선택</span>
+						<ul class="ms_sel">
+							<li>
+								<input type="radio" class="radio_type01" name="areaCheck" id="area1" value="area1" checked="checked" />
+								<label for="area1">전국</label>
+							</li>
+							<li class="nt">
+								<span class="alt">
+									<input type="radio" class="radio_type01" name="areaCheck" id="area2" value="area2" />
+									<label for="area2">행정구역별</label>
+								</span>
+								<select class="select_type01" name="searchSiDo" id="searchSiDo" title="전체(시도)" onchange="chgGuGun();" disabled>
+									<option value="전체">전체(시도)</option>
+								</select>
+								<select class="select_type01" name="searchGuGun" id="searchGuGun" title="전체(시 / 군 / 구)" disabled>
+									<option value="전체">전체(시 / 군 / 구)</option>
+								</select>
+							</li>
+						</ul>
+					</div>
+					<div class="ms_group">
+						<span class="ms_tit">기간</span>
+						<div class="ms_data">
+							<select class="select_type01" name="sdateYear" id="sdateYear" title="기간 선택" onchange="chgMonth($(this).val(),'s')" >
+							
+							</select>
+							<select class="select_type01" name="sdateMonth" id="sdateMonth" title="기간 선택">
+
+							</select>
+							<span class="space">~</span>
+							<select class="select_type01" name="edateYear" id="edateYear" title="기간 선택" onchange="chgMonth($(this).val(),'e')">
+
+							</select>
+							<select class="select_type01" name="edateMonth" id="edateMonth" title="기간 선택">
+
+							</select>
+						</div>
+					</div>
+					
+					<div class="ms_group last">
+						<span class="ms_tit">추출정보
+								<span style="display:inline-block;margin-left:10px;font-size:14px;">
+									<input type="checkbox" class="radio_type01" name="listCheck" id="checkAll" value="checkAll" checked="checked"/>
+									<label for="checkAll">전체선택</label>
+								</span>							
+						</span>
+						<ul class="multi_chk">
+							
+								<li>
+									<input type="checkbox" class="chk_type01" name="cbCntr1" id="cbCntr1" value="100" checked="checked" />
+									<label for="cbCntr1">주택용</label>
+								</li> 
+							
+								<li>
+									<input type="checkbox" class="chk_type01" name="cbCntr2" id="cbCntr2" value="200" checked="checked" />
+									<label for="cbCntr2">일반용</label>
+								</li> 
+							
+								<li>
+									<input type="checkbox" class="chk_type01" name="cbCntr3" id="cbCntr3" value="250" checked="checked" />
+									<label for="cbCntr3">교육용</label>
+								</li> 
+							
+								<li>
+									<input type="checkbox" class="chk_type01" name="cbCntr4" id="cbCntr4" value="300" checked="checked" />
+									<label for="cbCntr4">산업용</label>
+								</li> 
+							
+								<li>
+									<input type="checkbox" class="chk_type01" name="cbCntr5" id="cbCntr5" value="500" checked="checked" />
+									<label for="cbCntr5">농사용</label>
+								</li> 
+							
+								<li>
+									<input type="checkbox" class="chk_type01" name="cbCntr6" id="cbCntr6" value="600" checked="checked" />
+									<label for="cbCntr6">가로등</label>
+								</li> 
+							
+								<li>
+									<input type="checkbox" class="chk_type01" name="cbCntr7" id="cbCntr7" value="900" checked="checked" />
+									<label for="cbCntr7">심 야</label>
+								</li> 
+							
+						</ul>
+					</div>
+					
+					<!--button-->
+					<p class="button a_r">
+						<a href="#" onclick="return false;" id="btn_search" class="btn_2 size_n">검색</a>
+					</p>
+					<!--//button-->		
+				</fieldset>
+			</div>
+			<!--//search-->
+	</form>
+	
+			<!--tab-->
+			<div class="tab_A0 a_c split_4 mat_30 mab_10">
+				<ul>
+					<li id="tab1" class="on"><a href="#;" onClick="map_tab('1'); return false;">전체</a></li>
+					<li id="tab2" ><a href="#;" onClick="map_tab('2'); return false;">테이블</a></li>
+					<li id="tab3" ><a href="#;" onClick="map_tab('3'); return false;">그래프</a></li>
+					<li id="tab4" ><a href="#;" onClick="map_tab('4'); return false;">추이그래프</a></li>
+				</ul>
+			</div>
+			<!--//tab-->
+
+			<!--view1-->
+			<div class="map_box" id="view1" style="display:;" >
+				<!-- 버튼 -->
+				<p class="add_option">
+					<span class="button_download">
+				    	<a href="#" id="btn_mondownex" class="btn_1 size_s">월별 데이터 다운로드</a>
+						<a href="#" id="btn_downex" class="btn_1 size_s">다운로드</a>
+				  	</span>
+					<span class="add_txt star">(단위: 호, kWh, 원, 원/kWh)
+						<span class="search_option_str" style="font-weight:600"></span>
+					</span> 
+				</p>
+				<div class="table_A0">
+					<!--//버튼 -->
+					<table summary="summary" id="table_des">
+						<caption>caption</caption>
+						<colgroup>
+							<col width="12%" />
+							<col width="25%" />
+							<col width="13%" />
+							<col width="20%" />
+							<col width="20%" />
+							<col width="10%" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col">지역구분</th>
+								<th scope="col">계약구분</th>
+								<th scope="col">고객호수(호)</th>
+								<th scope="col">사용량(kWh)</th>
+								<th scope="col">전기요금(원)</th>
+								<th scope="col">평균판매단가(원/kWh)</th>
+							</tr>
+						</thead>
+						<tbody id="view1_table">
+
+						</tbody>
+					</table>
+				</div>
+				
+				<!-- 그래프변경 셀렉트박스 -->
+				<div class="mat_25 summary_box">
+					<!-- table summary="summary" class="sum_TB">
+						<caption>caption</caption>
+						<colgroup>
+							<col width="82%" />
+							<col width="7%" />
+							<col width="11%" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col"></th>
+								<th scope="col">그래프 선택</th>
+								<td class="a_c">
+									<select class="select_type01" name="" id="selGraph" title="그래프 선택" onchange="chgGraph()" style="width:100% " >
+										<option value="donutGraph"> 원그래프 </option>
+										<option value="barGraph"> 막대그래프 </option>
+									</select>
+								</td>
+							</tr>
+						</thead>
+						<tbody id="">
+						</tbody>
+					</table -->
+					<div class="box_inner">
+						<span>그래프 선택</span>
+						<select class="select_type01" name="" id="selGraph" title="그래프 선택" onchange="chgGraph()" style="width:100% " >
+							<option value="donutGraph"> 원그래프 </option>
+							<option value="barGraph"> 막대그래프 </option>
+						</select>
+					</div>
+				</div>
+				
+				<!-- 원 그래프 -->				
+				<div class="mat_10" id="donutGraph" style="display: block; ">
+					<table summary="summary" class="table_large">
+							<caption>caption</caption>
+							<colgroup>
+								<col width="25%" />
+								<col width="25%" />
+								<col width="25%" />
+								<col width="*" />
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">고객호수(호)</th>
+									<th scope="col">사용량(kWh)</th>
+									<th scope="col">전기요금(원)</th>
+									<th scope="col">평균판매단가<br/>(원/kWh)</th>
+								</tr>
+							</thead>
+							<tbody id="">
+							<tr>
+								<!-- <strong>고객호수</strong> -->
+								<td><div id="graphView1"></div></td>
+								<!-- <strong>사용량</strong> -->
+								<td><div id="graphView2"></div></td>
+								<!-- <strong>전기요금</strong> -->
+								<td><div id="graphView3"></div></td>
+								<!-- <strong>평균판매단가</strong> -->
+								<td><div id="graphView4" style="padding:3px; "></div></td>	
+							</tr>
+							<tr>
+								<td colspan= "4">
+									<div class="legend">
+										
+											<span class="leg1"><b주택용</b></span>
+										
+											<span class="leg2"><b일반용</b></span>
+										
+											<span class="leg3"><b교육용</b></span>
+										
+											<span class="leg4"><b산업용</b></span>
+										
+											<span class="leg5"><b농사용</b></span>
+										
+											<span class="leg6"><b가로등</b></span>
+										
+											<span class="leg7"><b심 야</b></span>
+										
+									</div>
+								</td>
+							</tr>
+							</tbody>
+					</table>
+				</div>
+				
+				<!-- 막대 그래프 -->
+				<div class="mat_10" id="barGraph" style="display:none; ">
+				<table summary="summary">
+							<caption>caption</caption>
+							<colgroup>
+								<col width="25%" />
+								<col width="25%" />
+								<col width="25%" />
+								<col width="*" />
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">고객호수(호)</th>
+									<th scope="col">사용량(kWh)</th>
+									<th scope="col">전기요금(원)</th>
+									<th scope="col">평균판매단가<br/>(원/kWh)</th>
+								</tr>
+							</thead>
+							<tbody id="">
+							<tr>
+								<!-- <strong>고객호수</strong> -->
+								<td><div id="barGraphView1"></div></td>
+								<!-- <strong>사용량</strong> -->
+								<td><div id="barGraphView2"></div></td>
+								<!-- <strong>전기요금</strong> -->
+								<td><div id="barGraphView3"></div></td>
+								<!-- <strong>평균판매단가</strong> -->
+								<td><div id="barGraphView4" style="padding:3px; "></div></td>	
+							</tr>
+							<tr>
+								<td colspan= "4">
+									<div class="legend">
+										
+											<span class="leg1"><b</b></span>
+										
+											<span class="leg2"><b</b></span>
+										
+											<span class="leg3"><b</b></span>
+										
+											<span class="leg4"><b</b></span>
+										
+											<span class="leg5"><b</b></span>
+										
+											<span class="leg6"><b</b></span>
+										
+											<span class="leg7"><b</b></span>
+										
+									</div>
+								</td>
+							</tr>
+							</tbody>
+					</table>
+				</div>
+				
+				<!-- 추이그래프 --> 
+				<div class="graph_A0 mat_20" id="lineGraph">
+				    <div id="lineGraphView1" style="height:550px;width:100%;margin-bottom:50px;"></div>
+				</div>
+				
+			</div>
+			<!--//view1-->
+
+<!-- 아래 문구 추가시 추이그래프의 전체선택 버튼 위치 수정해야 함 -->
+<div>
+	<p class="add_txt">
+	  	작성주기 : (월)전월통계치를 매월 15일경 갱신
+	</p>
+	<p class="add_txt">
+		출처 : 한국전력통계
+	</p>
+	<!-- p class="add_txt" style="margin-bottom:8px; margin-left:65%;">
+		비고 : 20**년 **월 이전의 데이터는이전 포털시스템을 참조하시기 바랍니다.
+	</p-->
+</div>			
+		
+			
+<!-- 그래프 팝업창  -->
+<div id="graph_popup" class="ly_pop" style="position:absolute; top:0%; left:0%; z-index:9000; width:1000px; height:780px; display:none; ">
+	<h1><span>&#8226;</span>그래프</h1><span class="close" id="btn_oh_close_icon" onclick="graph_pop_close()"><a href="#none;" ></a></span>
+	<input type="hidden" name="scode" id="popGraphId" value="" title="그래프ID" />
+
+	<!-- highchart -->
+    <div id="popGraphView" style="height:90%"></div>
+</div>
+<!-- 그래프 팝업창  -->
+
+
+<script type="text/javascript">
+//<![CDATA[
+	
+	//초기화
+	$(document).ready(function() {
+	
+		$("#btn_search").click( function() {
+			refreshDes();
+		});
+		
+		//시도 selectBox생성
+ 		var sido_html = "";
+		
+				sido_html = sido_html+"<option value='11'>서울특별시</option>\r\n";
+		
+				sido_html = sido_html+"<option value='21'>부산광역시</option>\r\n";
+		
+				sido_html = sido_html+"<option value='22'>대구광역시</option>\r\n";
+		
+				sido_html = sido_html+"<option value='23'>인천광역시</option>\r\n";
+		
+				sido_html = sido_html+"<option value='24'>광주광역시</option>\r\n";
+		
+				sido_html = sido_html+"<option value='25'>대전광역시</option>\r\n";
+		
+				sido_html = sido_html+"<option value='26'>울산광역시</option>\r\n";
+		
+				sido_html = sido_html+"<option value='31'>경기도</option>\r\n";
+		
+				sido_html = sido_html+"<option value='32'>강원도</option>\r\n";
+		
+				sido_html = sido_html+"<option value='33'>충청북도</option>\r\n";
+		
+				sido_html = sido_html+"<option value='34'>충청남도</option>\r\n";
+		
+				sido_html = sido_html+"<option value='35'>전라북도</option>\r\n";
+		
+				sido_html = sido_html+"<option value='36'>전라남도</option>\r\n";
+		
+				sido_html = sido_html+"<option value='37'>경상북도</option>\r\n";
+		
+				sido_html = sido_html+"<option value='38'>경상남도</option>\r\n";
+		
+				sido_html = sido_html+"<option value='39'>제주특별자치도</option>\r\n";
+		
+				sido_html = sido_html+"<option value='41'>세종특별자치시</option>\r\n";
+		
+		$('#searchSiDo').append(sido_html);
+		
+		//기간selectbox 생성
+		var date_html = "";
+		
+				date_html = date_html + "<option value='2002'>2002</option>"
+		
+				date_html = date_html + "<option value='2003'>2003</option>"
+		
+				date_html = date_html + "<option value='2004'>2004</option>"
+		
+				date_html = date_html + "<option value='2005'>2005</option>"
+		
+				date_html = date_html + "<option value='2006'>2006</option>"
+		
+				date_html = date_html + "<option value='2007'>2007</option>"
+		
+				date_html = date_html + "<option value='2008'>2008</option>"
+		
+				date_html = date_html + "<option value='2009'>2009</option>"
+		
+				date_html = date_html + "<option value='2010'>2010</option>"
+		
+				date_html = date_html + "<option value='2011'>2011</option>"
+		
+				date_html = date_html + "<option value='2012'>2012</option>"
+		
+				date_html = date_html + "<option value='2013'>2013</option>"
+		
+				date_html = date_html + "<option value='2014'>2014</option>"
+		
+				date_html = date_html + "<option value='2015'>2015</option>"
+		
+				date_html = date_html + "<option value='2016'>2016</option>"
+		
+				date_html = date_html + "<option value='2017'>2017</option>"
+		
+				date_html = date_html + "<option value='2018'>2018</option>"
+		
+				date_html = date_html + "<option value='2019'>2019</option>"
+		
+		$('#sdateYear').append(date_html);
+		$('#edateYear').append(date_html);
+		
+		//최근연도 선택
+		$('#sdateYear option:last').prop('selected', true);
+		$('#edateYear option:last').prop('selected', true);
+		
+		var mon = $('#sdateYear option:last').val();	//최근연도
+		
+		chgMonth(mon, 's');
+		chgMonth(mon, 'e');
+		
+		//최근월 선택
+		$('#sdateMonth option:last').prop('selected', true);
+		$('#edateMonth option:last').prop('selected', true);
+		
+		//전국 최신날짜 기본검색
+		$("#btn_search").trigger("click");
+		
+		
+		// 팝업 객체를 body에 append한다
+		$("body").append($('#graph_popup'));
+		
+		
+		// JqGrid 그래프 클릭시 팝업창 위치 조정
+	    $('.jqplot-target').bind('jqplotDataClick', function (ev, seriesIndex, pointIndex, data) {	
+	    	
+			var searchSiDo = $('#searchSiDo option:selected').val();
+			var searchGuGun = $('#searchGuGun option:selected').val();
+			
+	    	graphViewId = ev.target.id; //선택한 그래프의 ID
+	    	$("#popGraphId").val(graphViewId);
+	    	
+	    	
+	    	// 전체TAB 선택시 팝업창 위치
+	    	if( $("#tab1").attr('class') == 'on' ){
+		    	$("#graph_popup").css("left",( (($(document).width() - 1000) / 2) + $(document).scrollLeft() )+"px");
+		    	$("#graph_popup").css("top", ((($(document).height() - 3000) / 2) + $(document).scrollTop() )+"px");
+	    	}
+	    	
+	    	// 그래프TAB 선택시 팝업창 위치
+	    	if( $("#tab3").attr('class') == 'on' ){
+	    		$("#graph_popup").css("left",( (($(document).width() - 1000) / 2) + $(document).scrollLeft() )+"px");
+		    	$("#graph_popup").css("top", ((($(document).height() - 1300) / 3) + $(document).scrollTop() )+"px");
+	    	}
+	    	
+	    	// 행정구역별 > 전체(시도) 팝업창 위치
+	    	if(searchSiDo != '전체' && searchGuGun == '전체'){
+	    		$("#graph_popup").css("left",( (($(document).width() - 1000) / 2) + $(document).scrollLeft() )+"px");
+	    		$("#graph_popup").css("top", ( ( (($(document).height() - 1600) / 2) + ($(document).scrollTop() / 2 ) ))+"px");
+	    	}
+	    	
+	    	addPopGrahpAjx($(this).attr("id")); // 그래프팝업 Ajax 호출
+	    	
+	    	$("#graph_popup").show();
+	    });
+		
+		// 체크박스 전체선택
+		$('#checkAll').click(function(){
+			if($('#checkAll').prop("checked")==false){
+				$('input[name^=cbCntr]').prop('checked', false);
+			}else{
+				$('input[name^=cbCntr]').prop('checked', true);
+			}
+			
+		});		
+        
+		// 그래프 팝업창 드래그앤 드롭 이동
+        $('#graph_popup').draggable({ opacity:"0.3" }); // 끄는 동안만 불투명도 주기
+		
+        $("body").droppable({
+        	
+            accept: "#graph_popup",    // 드롭시킬 대상 요소
+
+            drop: function(event, ui) {
+            	
+            	$('#graph_popup').css({ opacity:"1.0" });
+
+            }
+        });
+        
+	});
+	
+	
+	// 그래프 팝업창 닫기
+	function graph_pop_close(){
+		
+		$("#popGraphView").empty();
+		$("#graph_popup").hide();
+		
+		//create_form_init();
+		//CmclospageDisable();
+	}
+	
+	
+	//탭이동
+	function map_tab(va) {
+		if (va == '1') {
+			$("#view1 > div").show();
+			$("#view1 > div").not(':eq(0)').addClass('mat_20');
+			
+			$("#tab1").addClass("on");
+			$(".tab_A0 li").not("#tab1").removeClass("on");
+			
+			$('#view1 > span').show(); //단위, 다운로드
+			$("#barGraph").hide();
+			
+			// 현재 선택된 그래프, 현재 선택된 그래프 상태에 TAB을 바꿔도 그래프의 상태가 유지가 되게
+			var graphId = $('#selGraph option:selected').val();
+			if (graphId == 'donutGraph') {
+				$("#barGraph").hide();
+				$("#donutGraph").show();
+				
+				addPopGrahpAjx();
+			}
+			if (graphId == 'barGraph') {
+				$("#donutGraph").hide();
+				$("#barGraph").show();
+				
+				addPopGrahpAjx(); // 막대그래프 생성 Ajax실행
+			}
+		}
+		if (va == '2') {
+			$("#view1 > div").hide();
+			$("#view1 > div:eq(0)").show();
+			$("#view1 > div:eq(0)").removeClass('mat_20');
+			
+			$("#tab2").addClass("on");
+			$(".tab_A0 li").not("#tab2").removeClass("on");
+			
+			$('#view1 > span').show(); //단위, 다운로드
+		}
+		if (va == '3') {
+			$("#view1 > div").hide();
+			$("#view1 > div:eq(1), #view1 > div:eq(2)").show();
+			$("#view1 > div:eq(1), #view1 > div:eq(2)").removeClass('mat_20');
+			
+			$("#tab3").addClass("on");
+			$(".tab_A0 li").not("#tab3").removeClass("on");
+			
+			$('#view1 > span').hide(); //단위, 다운로드
+			
+			// 현재 선택된 그래프, 현재 선택된 그래프 상태에 TAB을 바꿔도 그래프의 상태가 유지가 되게  
+			var graphId = $('#selGraph option:selected').val();
+			if (graphId == 'donutGraph') {
+				$("#barGraph").hide();
+				$("#donutGraph").show();
+				
+				addPopGrahpAjx();
+			}
+			if (graphId == 'barGraph') {
+				$("#donutGraph").hide();
+				$("#barGraph").show();
+				
+				addPopGrahpAjx(); // 막대그래프 생성 Ajax실행
+			}
+		}
+		if (va == '4') {
+			$("#view1 > div").hide();
+			$("#view1 > div:eq(4)").show();
+			$("#view1 > div:eq(4)").removeClass('mat_20');
+			
+			$("#tab4").addClass("on");
+			$(".tab_A0 li").not("#tab4").removeClass("on");
+			
+			$('#view1 > span').hide(); //단위, 다운로드
+		}
+	}
+	
+	// 그래프 선택_셀렉트박스 이벤트
+	function chgGraph(){
+		
+		var graphId = $('#selGraph option:selected').val();
+		
+		if (graphId == 'donutGraph') {
+			$("#barGraph").hide();
+			$("#donutGraph").show();
+			
+			// $("#btn_search").trigger("click");
+			addPopGrahpAjx();
+		}
+		
+		if (graphId == 'barGraph') {
+			$("#donutGraph").hide();
+			$("#barGraph").show();
+			
+			addPopGrahpAjx(); // 막대그래프 생성 Ajax실행
+		}
+	}
+	
+	//지역선택_전국
+	$('#area1').click(function(){
+		$('#searchSiDo option:first').prop('selected', true);
+		$('#searchGuGun option:first').prop('selected', true);
+		$('#searchSiDo').prop('disabled', true);
+		$('#searchGuGun').prop('disabled', true);
+	})
+	
+	//지역선택_행정구역별
+	$('#area2').click(function(){
+		$('#searchSiDo').prop('disabled', false);
+		$('#searchGuGun').prop('disabled', false);
+	})
+	
+	
+	//지도클릭이벤트
+	$('#Map area').click(function(){
+		
+		var sel_map = $(this).attr('alt');
+		
+		if(sel_map=='울릉도' || sel_map=='독도'){
+			return;
+		}
+		
+		$("#area2").trigger("click");
+		$('#searchSiDo').val(sel_map);
+		chgGuGun();
+		$("#btn_search").trigger("click");
+	});
+	
+	
+	//엑셀다운로드
+	$("#btn_downex").click( function() {
+		if($("#ssEmpNm").val() ==  "N")
+		{ 
+			alert("자료에 대한 다운로드는 로그인 이후 가능합니다!");
+		}else {
+			var srchSiDoNm = $("#searchSiDo option:selected").text();
+			$("#searchSiDoNm").val(srchSiDoNm);
+			var srchGuGunNm = $("#searchGuGun option:selected").text();
+			$("#searchGuGunNm").val(srchGuGunNm);
+			var cbCntrCntLength = $("input:checkbox[id ^='cbCntr']").length; 
+			$("#cbCntrCnt").val(cbCntrCntLength);
+			$("#pstate").val("EX");
+			var listfrm = $('#listfrm');
+			listfrm.attr("action", "/cmsmain.do");
+			listfrm.attr("target", "successIframe");
+		 	document.listfrm.submit();
+		 	listfrm.find('#pstate').val("L");
+		 	listfrm.attr("target", "");
+		}
+	});
+	
+	//월별엑셀다운로드
+	$("#btn_mondownex").click( function() {
+		if($("#ssEmpNm").val() ==  "N")
+		{ 
+			alert("자료에 대한 다운로드는 로그인 이후 가능합니다!");
+		}else {
+			var srchSiDoNm = $("#searchSiDo option:selected").text();
+			$("#searchSiDoNm").val(srchSiDoNm);
+			var srchGuGunNm = $("#searchGuGun option:selected").text();
+			$("#searchGuGunNm").val(srchGuGunNm);
+			var cbCntrCntLength = $("input:checkbox[id ^='cbCntr']").length; 
+			$("#cbCntrCnt").val(cbCntrCntLength);
+			$("#pstate").val("EX2");
+			var listfrm = $('#listfrm');
+			listfrm.attr("action", "/cmsmain.do");
+			listfrm.attr("target", "successIframe");
+		 	document.listfrm.submit();
+		 	listfrm.find('#pstate').val("L");
+		 	listfrm.attr("target", "");
+		}
+	});
+	
+	function srchCheck(){
+		if(event.keyCode==13){
+			$("#btn_search").trigger("click");
+		}
+	}
+	
+	//시군구 onchange
+	function chgGuGun(){
+		//초기화
+		$('#searchGuGun option:not(:first)').remove();
+		
+		$("#pstate").val("L2");
+		var params =  $("form[name=listfrm]").serialize();
+		
+		$.ajax({
+	        type: "post",
+	        url: "/cmsajax.do",
+	        data: params,
+	        async: false,
+	        dataType:"json",
+	        timeout: 3000,
+	        error: function (jqXHR, textStatus, errorThrown) {
+            	// 통신에 에러가 있을경우 처리할 내용(생략가능)
+	        	alert("네트웍장애가 발생했습니다. 다시시도해주세요");
+	        },
+	        success: function(data){
+	        	
+	           if(data.result==true){
+					if(data.rows!=""){
+						//시군구 selectBox생성
+				 		var GunGu_html = "";
+				 		var rows = data.rows;
+						for(var i=0;i<rows.length;i++){
+						
+							GunGu_html = GunGu_html+"<option value='"+rows[i].sgg_cd+"'>"+rows[i].sgg_nm+"</option>\r\n";
+						
+						}
+						$('#searchGuGun').append(GunGu_html);
+						
+					}else{
+
+					}
+	           
+	           }else{
+		        	alert(data.TRS_MSG);
+		        	top.location.href="/cmsmain.do";
+		        	
+	           }
+	           
+	        }
+		});
+	}
+	
+	//기간 월 onchange
+	function chgMonth(yyyy, str){
+		
+		$("#yyyy").val(yyyy);
+		$("#pstate").val("L3");
+		
+		var params = $("form[name=listfrm]").serialize();
+		
+		$.ajax({
+	        type: "post",
+	        url: "/cmsajax.do",
+	        data: params,
+	        async: false,
+	        dataType:"json",
+	        timeout: 3000,
+	        error: function (jqXHR, textStatus, errorThrown) {
+            	// 통신에 에러가 있을경우 처리할 내용(생략가능)
+	        	alert("네트웍장애가 발생했습니다. 다시시도해주세요");
+	        },
+	        success: function(data){
+	        	
+	    		//초기화
+	    		$('#'+str+'dateMonth option').remove();
+	        	
+	           if(data.result==true){
+					if(data.rows!=""){
+						//월 selectBox생성
+				 		var mm_html = "";
+				 		var rows = data.rows;
+						for(var i=0;i<rows.length;i++){
+						
+							mm_html = mm_html+"<option value='"+rows[i].mm+"'>"+rows[i].mm+"</option>\r\n";
+						}
+						$('#'+str+'dateMonth').append(mm_html);
+					}else{
+
+					}
+	           
+	           }else{
+		        	alert(data.TRS_MSG);
+		        	top.location.href="/cmsmain.do";
+		        	
+	           }
+	           
+	        }
+		});
+	}
+	
+	// 하이차트 팝업창 위치 조정
+	function popGridPosition(clickGraphId){
+		
+		var searchSiDo = $('#searchSiDo option:selected').val();
+		var searchGuGun = $('#searchGuGun option:selected').val();
+		
+    	// 전체TAB 선택시 팝업창 위치
+    	if( $("#tab1").attr('class') == 'on' ){
+	    	$("#graph_popup").css("left",( (($(document).width() - 1000) / 2) + $(document).scrollLeft() )+"px");
+	    	$("#graph_popup").css("top", ((($(document).height() - 2800) / 2) + $(document).scrollTop() )+"px");
+    	}
+    	
+    	// 그래프TAB 선택시 팝업창 위치
+    	if( $("#tab3").attr('class') == 'on' ){
+    		$("#graph_popup").css("left",( (($(document).width() - 1000) / 2) + $(document).scrollLeft() )+"px");
+	    	$("#graph_popup").css("top", ((($(document).height() - 1300) / 3) + $(document).scrollTop() )+"px");
+    	}
+    	
+    	// 행정구역별 > 전체(시도) 팝업창 위치
+    	if(searchSiDo != '전체' && searchGuGun == '전체'){
+    		$("#graph_popup").css("left",( (($(document).width() - 1000) / 2) + $(document).scrollLeft() )+"px");
+    		$("#graph_popup").css("top", ( ( (($(document).height() - 1500)/ 2) + ($(document).scrollTop() / 2 ) ))+"px");
+    	}
+    	
+    	$("#popGraphId").val(clickGraphId);
+		
+    	addPopGrahpAjx(clickGraphId); // 그래프팝업 Ajax 호출
+    	
+    	$("#graph_popup").show();
+	}
+	
+	//검색
+	function refreshDes(){
+		
+		var cbCntrCntLength = $("input:checkbox[id ^='cbCntr']").length; 
+		$("#cbCntrCnt").val(cbCntrCntLength);
+		
+		//검색조건
+		var area1 = $('#area1').prop('checked');
+		var area2 = $('#area2').prop('checked');
+		var searchSiDo = $('#searchSiDo option:selected').val();
+		var searchGuGun = $('#searchGuGun option:selected').val();
+		
+		//기간체크
+		var sdateYear = $('#sdateYear').val();
+		var sdateMonth = $('#sdateMonth').val();
+		var edateYear = $('#edateYear').val();
+		var edateMonth = $('#edateMonth').val();
+		var sDate = sdateYear+sdateMonth;
+		var eDate = edateYear+edateMonth;
+		var diffMonth = (parseInt(edateYear) - parseInt(sdateYear))*12 + (parseInt(edateMonth) - parseInt(sdateMonth)); // 시작월 종료월 차이, 개월차이수
+		
+		if (sDate != "" && eDate != "") {
+			if (sDate > eDate) {
+				alert("시작 일자가 종료일자 이후일 수 없습니다");
+				return false;
+			}
+		}
+		
+		if (sdateYear == "" || sdateMonth == "" || edateYear == "" || edateMonth == "") {
+			alert("검색 시작 일자와 종료 일자을 모두 입력해 주십시오");
+			return false;
+		}
+		
+		if(diffMonth >= 6 ){
+			alert("검색 시작 일자와 종료 일자는 6개월 단위로 입력해 주십시오");
+			return false;
+		}
+		
+		//테이블초기화
+		$('#view1>div:eq(0)>table').not('#table_des').remove();
+		
+		//추이그래프 생성
+		$("#pstate").val("X");
+		var params =  $("form[name=listfrm]").serialize();
+		
+		loadingOpen();
+		$(".search_option_str:not(:eq(0))").remove();
+		$(".search_option_str").html("");
+		$(".search_option_str").eq(0).html("기간:"+$("#sdateYear").val()+"."+$("#sdateMonth").val()+" ~ "+$("#edateYear").val()+"."+$("#edateMonth").val());
+		$.ajax({
+	        type: "post",
+	        url: "/cmsajax.do",
+	        data: params,
+	        async: false,
+	        dataType:"json",
+	        timeout: 3000,
+	        error: function (jqXHR, textStatus, errorThrown) {
+            	// 통신에 에러가 있을경우 처리할 내용(생략가능)
+	        	alert("네트웍장애가 발생했습니다. 다시시도해주세요");
+	        	loadingClose();
+	        },
+	        success: function(data){
+	           if(data.result==true){
+					if(data.rows!=""){
+						
+						addTable(data);			//기본테이블 생성
+						addHighGrahp(data);		//하이차트 그래프
+						chgGraph();
+						
+						// addGrahp(data);		//그래프 생성
+						addLineGrahpAjx();		//추이그래프 생성
+						
+					}else{
+						
+						var list_html = "<tr class='no_text'><td colspan='6' class='a_c'>조회된 데이터가 없습니다.</td></tr>";
+						var graph_html = "<ul><li>조회된 그래프 데이터가 없습니다.</li></ul>";
+						var lineGraph_html = "<ul><li>조회된 추이그래프 데이터가 없습니다.</li></ul>";
+						
+						$('#view1_table').html('');		// 테이블 초기화
+						$('#donutGraph').html('');		// 하이차트 그래프 초기화
+						$('#barGraph').html('');		// 막대 그래프 초기화
+						$('#lineGraph').html('');		// 추이 그래프 초기화
+						
+						$('#view1_table').append(list_html);	// 테이블 세팅
+						$('#donutGraph').append(graph_html);	// 하이차트 세팅
+						$('#barGraph').append(graph_html);		// 막대그래프 세팅
+						$('#lineGraph').append(lineGraph_html);	// 추이그래프 세팅
+						
+						loadingClose();
+					}
+	           
+	           }else{
+		        	alert(data.TRS_MSG);
+		        	top.location.href="/cmsmain.do";
+		        	
+		        	loadingClose();
+	           }
+	           
+	        }
+		
+		});
+		
+		if( area2==true ){
+			if( (searchSiDo=='전체' && searchGuGun=='전체') || (searchSiDo!='전체' && searchGuGun=='전체') ){
+				
+				$("#pstate").val("X2");
+				var params =  $("form[name=listfrm]").serialize();
+				
+				$.ajax({
+			        type: "post",
+			        url: "/cmsajax.do",
+			        data: params,
+			        async: false,
+			        dataType:"json",
+			        timeout: 3000,
+			        error: function (jqXHR, textStatus, errorThrown) {
+					
+			        	alert("네트웍장애가 발생했습니다. 다시시도해주세요");
+			        },
+			        success: function(data2){
+			           if(data2.result==true){
+							if(data2.rows!=""){
+								
+								addTableList(data2);	//테이블생성
+								
+							}else{
+							
+							}
+							
+			           }else{
+				        	alert(data2.TRS_MSG);
+				        	top.location.href="/cmsmain.do";
+			           }
+			           
+			        }
+					
+				});
+				
+			}
+		}
+		
+	}
+	
+	
+	//테이블 생성
+	function addTable(res_data){
+		
+		var hi=0;
+		var list_html = '';
+		var rows = res_data.rows;
+		
+		var hosu_tot = 0;		//고객호수
+		var kwh_tot = 0;		//사용량
+		var amt_tot = 0;		//전기요금
+		var unitcost_tot = 0;	//평균판매단가
+		
+		//검색조건
+		var area1 = $('#area1').prop('checked');
+		var area2 = $('#area2').prop('checked');
+		var searchSiDo = $('#searchSiDo option:selected').val();
+		var searchGuGun = $('#searchGuGun option:selected').val();
+		
+		var searchSiDoNm = $('#searchSiDo option:selected').text();
+		var searchGuGunNm = $('#searchGuGun option:selected').text();
+		
+
+		var gubun_str = '';
+		if( area1 == true ){
+			gubun_str = '전체';
+		}else if( area2 == true ){
+			if( searchSiDo!='전체' && searchGuGun == '전체' ){
+				gubun_str = searchSiDoNm;
+			}else{
+				gubun_str = searchSiDoNm+'<br /><br />'+searchGuGunNm;
+			}
+		}
+		
+		for(hi=0;hi<rows.length;hi++){
+			
+			list_html = list_html+"<tr class='tr_right'>";
+			if(hi==0){
+			list_html = list_html+"	 <td rowspan='"+rows.length+"' class='a_c'>"+gubun_str+"</td>";
+			}
+			list_html = list_html+"	 <td class='a_c'>"+rows[hi].cntr+"</td>";
+			if(parseInt(rows[hi].hosu,10) <=5 ){
+				list_html = list_html+"	 <td class='hosu'>5이하</td>";
+			}else{
+				list_html = list_html+"	 <td class='hosu'>"+numberWithCommas(rows[hi].hosu)+"</td>";
+			}			
+
+			list_html = list_html+"	 <td class='kwh'>"+numberWithCommas(rows[hi].kwh)+"</td>";
+			list_html = list_html+"	 <td class='amt'>"+numberWithCommas(rows[hi].amt)+"</td>";
+			list_html = list_html+"	 <td class='unitcost'>"+numberWithCommas(rows[hi].unitcost)+"</td>";
+			list_html = list_html+"</tr>";
+			
+			//합계저장
+			hosu_tot = hosu_tot + Number(rows[hi].hosu);
+			kwh_tot = kwh_tot + Number(rows[hi].kwh);
+			amt_tot = amt_tot + Number(rows[hi].amt);
+			unitcost_tot = unitcost_tot + Number(rows[hi].unitcost);
+		}
+		
+		//합계
+		list_html = list_html+"<tr class='total tr_right'>";
+		list_html = list_html+"	 <td colspan='2' class='a_c'>합계</td>";
+		list_html = list_html+"	 <td class='hosu'>"+numberWithCommas(hosu_tot)+"</td>";
+		list_html = list_html+"	 <td class='kwh'>"+numberWithCommas(kwh_tot)+"</td>";
+		list_html = list_html+"	 <td class='amt'>"+numberWithCommas(amt_tot)+"</td>";
+		list_html = list_html+"	 <td class='unitcost'>"+numberWithCommas((amt_tot/kwh_tot).toFixed(1))+"</td>";
+		list_html = list_html+"</tr>";
+		
+		$('#view1_table').html('');
+		$('#view1_table').append(list_html);	//전체탭view1
+		
+	}
+	
+	
+	//테이블 생성
+	function addTableList(res_data){
+		
+		var hi=0;
+		var list_html = '';
+		var rows = res_data.rows;
+		
+		var hosu_tot = 0;		//고객호수
+		var kwh_tot = 0;		//사용량
+		var amt_tot = 0;		//전기요금
+		var unitcost_tot = 0;	//평균판매단가
+		
+		//검색조건
+		var gubun_str = '';
+		var area1 = $('#area1').prop('checked');
+		var area2 = $('#area2').prop('checked');
+		var searchSiDo = $('#searchSiDo option:selected').val();
+		var searchGuGun = $('#searchGuGun option:selected').val();
+		
+		var searchSiDoNm = $('#searchSiDo option:selected').text();
+		var searchGuGunNm = $('#searchGuGun option:selected').text();
+		
+		
+		if( area1 == true ){
+			gubun_str = '전체';
+		}else if( area2 == true ){
+			if(searchSiDo=='전체' && searchGuGun == '전체'){
+				gubun_str = searchSiDoNm;
+			}else if( searchSiDo!='전체' && searchGuGun == '전체' ){
+				gubun_str = '전체';
+			}else{
+				gubun_str = searchSiDoNm+'<br /><br />'+searchGuGunNm;
+			}
+		}
+		$('#table_des>tbody>tr:eq(0)>td:eq(0)').text(gubun_str);
+		$('#table_des>tbody>tr:eq(0)>td:eq(0)').addClass('aaaa');
+		
+		//테이블 thead부분을 복사해둔다
+			var thead_html = "<span class='search_option_str' style='font-weight:600;vertical-align:bottom;line-height:40px;'></span>"
+			thead_html = thead_html +"<table summary='summary' class='mat_10' style='margin-top:0px !important;' >"
+			thead_html = thead_html + "<caption>caption</caption>"
+			thead_html = thead_html + "<colgroup>"
+			thead_html = thead_html + 	"<col width='12%' />"
+			thead_html = thead_html + 	"<col width='25%' />"
+			thead_html = thead_html + 	"<col width='13%' />"
+			thead_html = thead_html + 	"<col width='20%' />"
+			thead_html = thead_html + 	"<col width='20%' />"
+			thead_html = thead_html + 	"<col width='10%' />"
+			thead_html = thead_html + "</colgroup>"
+			thead_html = thead_html + "<thead>"
+			thead_html = thead_html + 	"<tr>"
+			thead_html = thead_html + 		"<th scope='col'>지역구분</th>"
+			thead_html = thead_html + 		"<th scope='col'>계약구분</th>"
+			thead_html = thead_html + 		"<th scope='col'>고객호수(호)</th>"
+			thead_html = thead_html + 		"<th scope='col'>사용량(kWh)</th>"
+			thead_html = thead_html + 		"<th scope='col'>전기요금(원)</th>"
+			thead_html = thead_html + 		"<th scope='col'>평균판매단가(원/kWh)</th>"
+			thead_html = thead_html + 	"</tr>"
+			thead_html = thead_html + "</thead>"
+			thead_html = thead_html + "<tbody>"
+			thead_html = thead_html + "</tbody>"
+			
+		//var add_txt_html = "<p class='add_txt star'>(단위: 호, kWh, 원, 원/kWh)</p>"
+		
+		//$('.add_txt').remove();
+		$('#view1>div:eq(0)').append(thead_html);
+		
+		for(hi=0;hi<rows.length;hi++){
+			
+			if(rows[hi].cntr == '합계'){
+				list_html = list_html+"<tr class='total tr_right'>";
+				list_html = list_html+"	 <td colspan='2' class='a_c'>합계</td>";
+				list_html = list_html+"	 <td class='hosu'>"+numberWithCommas(rows[hi].hosu)+"</td>";
+				list_html = list_html+"	 <td class='kwh'>"+numberWithCommas(rows[hi].kwh)+"</td>";
+				list_html = list_html+"	 <td class='amt'>"+numberWithCommas(rows[hi].amt)+"</td>";
+				list_html = list_html+"	 <td class='unitcost'>"+numberWithCommas(rows[hi].unitcost)+"</td>";
+				list_html = list_html+"</tr>";
+				
+				//$('#view1 tbody:last').html('');
+				//$('#view1 tbody:last').append(list_html);
+				
+				$('#view1>div:eq(0) tbody:last').html('');
+				$('#view1>div:eq(0) tbody:last').append(list_html);
+				list_html = "";
+				
+				if(hi != rows.length-1){
+					$('#view1>div:eq(0)').append(thead_html);
+				}else{
+					//$('#view1>div:eq(0)').append(add_txt_html);
+				}
+				
+			}else{
+				list_html = list_html+"<tr class='tr_right'>";
+				if(hi==0 ){
+					if(rows[hi].sigungu==null){
+						list_html = list_html+"	 <td rowspan='7' class='a_c'>"+rows[hi].sido+"</td>";
+					}else{
+						list_html = list_html+"	 <td rowspan='7' class='a_c'>"+rows[hi].sido+"<br/><br/>"+rows[hi].sigungu+"</td>";
+					}
+					
+				}else if(rows[hi-1].sido != rows[hi].sido){
+					list_html = list_html+"	 <td rowspan='7' class='a_c'>"+rows[hi].sido+"</td>";
+					
+				}else if(rows[hi-1].sigungu != rows[hi].sigungu){
+					list_html = list_html+"	 <td rowspan='7' class='a_c'>"+rows[hi].sido+"<br/><br/>"+rows[hi].sigungu+"</td>";
+					
+				}else{
+					
+				}
+
+				list_html = list_html+"	 <td class='a_c'>"+rows[hi].cntr+"</td>";
+				if(parseInt(rows[hi].hosu,10) <=5 ){
+					list_html = list_html+"	 <td class='hosu'>5이하</td>";
+				}else{
+					list_html = list_html+"	 <td class='hosu'>"+numberWithCommas(rows[hi].hosu)+"</td>";
+				}				
+				
+				list_html = list_html+"	 <td class='kwh'>"+numberWithCommas(rows[hi].kwh)+"</td>";
+				list_html = list_html+"	 <td class='amt'>"+numberWithCommas(rows[hi].amt)+"</td>";
+				list_html = list_html+"	 <td class='unitcost'>"+numberWithCommas(rows[hi].unitcost)+"</td>";
+				list_html = list_html+"</tr>";
+			}
+		}
+		
+		//rowspan 재조정
+		$('#view1 table').each(function(){
+			var rspan = $(this).find("tbody>tr:not('.total')").length;
+			if(rspan != 8){
+				$(this).find('tbody>tr:eq(0)>td:first').attr('rowspan', rspan);
+			}
+		}); 
+		
+		$(".search_option_str").html("기간:"+$("#sdateYear").val()+"."+$("#sdateMonth").val()+" ~ "+$("#edateYear").val()+"."+$("#edateMonth").val());
+
+	}
+	
+	//table값 초기화
+	function tableReset(str){
+		$('.'+str).text('-');
+	}
+	
+	
+	// JqGrid 그래프 생성
+	function addGrahp(res_data){
+		
+		var hi=0;
+		var rows = res_data.rows;
+		
+		var items1 = new Array();
+		var items2 = new Array();
+		var items3 = new Array();
+		var items4 = new Array();
+		
+		for(hi=0;hi<rows.length;hi++){
+			
+			//그래프
+			var tempItems1 = new Array();
+			var tempItems2 = new Array();
+			var tempItems3 = new Array();
+			var tempItems4 = new Array();
+		
+			tempItems1.push(rows[hi].cntr, rows[hi].hosu);
+			tempItems2.push(rows[hi].cntr, rows[hi].kwh);
+			tempItems3.push(rows[hi].cntr, rows[hi].amt);
+			tempItems4.push(rows[hi].unitcost);
+			
+			items1[hi] = tempItems1;
+			items2[hi] = tempItems2;
+			items3[hi] = tempItems3;
+			items4[hi] = tempItems4;
+			
+		}
+		
+		$.jqplot.config.enablePlugins = false;
+		
+		//고객호수
+		if (items1.length > 0) {
+			if ($('#hosucheck').prop("checked")) {
+				
+				var plot1 = $
+						.jqplot(
+								'graphView1',
+								eval([ items1 ]),
+								{
+									title : '고객호수',
+									seriesDefaults : {
+										shadow : false,
+										renderer : $.jqplot.PieRenderer,
+										rendererOptions : {
+											startAngle : -90,
+										}
+									},
+									seriesColors:[  "#97d7ff",
+									                "#58b2eb",
+									                "#3d72c9",
+									                "#b8e79f",
+									                "#51cda0",
+									                "#2a936f",
+									                "#fff09c",
+									                "#ff8684",
+									                "#c02725",
+									                "#ffa740" ],
+									grid : {
+										drawGridlines : false,
+										background : 'White',
+										borderColor : 'white',
+										shadow : false
+									}
+								});
+
+			} else {
+				tableReset('hosu');
+
+			}
+		}
+		
+		//사용량
+		if (items2.length > 0) {
+			if ($('#amtcheck').prop("checked")) {
+
+				//그래프
+				var plot1 = $
+						.jqplot(
+								'graphView2',
+								eval([ items2 ]),
+								{
+									title : '사용량',
+									seriesDefaults : {
+										shadow : false,
+										renderer : $.jqplot.PieRenderer,
+										rendererOptions : {
+											startAngle : -90,
+										}
+									},
+									seriesColors:[  "#97d7ff",
+									                "#58b2eb",
+									                "#3d72c9",
+									                "#b8e79f",
+									                "#51cda0",
+									                "#2a936f",
+									                "#fff09c",
+									                "#ff8684",
+									                "#c02725",
+									                "#ffa740" ],
+									grid : {
+										drawGridlines : false,
+										background : 'White',
+										borderColor : 'white',
+										shadow : false
+									}
+								});
+
+
+			} else {
+				tableReset('kwh');
+
+			}
+		} 
+		
+		//전기요금
+		if (items3.length > 0) {
+			if ($('#kwhcheck').prop("checked")) {
+
+				//그래프
+				var plot1 = $
+						.jqplot(
+								'graphView3',
+								eval([ items3 ]),
+								{
+									title : '전기요금',
+									seriesDefaults : {
+										shadow : false,
+										renderer : $.jqplot.PieRenderer,
+										rendererOptions : {
+											startAngle : -90,
+										}
+									},
+									seriesColors:[  "#97d7ff",
+									                "#58b2eb",
+									                "#3d72c9",
+									                "#b8e79f",
+									                "#51cda0",
+									                "#2a936f",
+									                "#fff09c",
+									                "#ff8684",
+									                "#c02725",
+									                "#ffa740" ],
+									grid : {
+										drawGridlines : false,
+										background : 'White',
+										borderColor : 'white',
+										shadow : false
+									}
+								});
+
+			} else {
+				tableReset('amt');
+				
+			}
+		}
+
+		//평균판매단가
+		if (items4.length > 0) {
+			if ($('#unitcostcheck').prop("checked")) {
+
+				//그래프
+				var plot4 = $
+						.jqplot(
+								'graphView4',
+								items4,
+								{
+									title : '평균판매단가',
+									captureRightClick : true,
+									seriesDefaults : {
+										renderer : $.jqplot.BarRenderer,
+										shadow : false,
+										rendererOptions : {
+											barDirection : 'horizontal',
+											highlightMouseDown : false
+										}
+									},
+									seriesColors:[  "#97d7ff",
+									                "#58b2eb",
+									                "#3d72c9",
+									                "#b8e79f",
+									                "#51cda0",
+									                "#2a936f",
+									                "#fff09c",
+									                "#ff8684",
+									                "#c02725",
+									                "#ffa740" ],
+									grid : {
+										drawGridlines : false,
+										background : 'white',
+										borderColor : 'white',
+										shadow : false
+									},
+									axes : {
+										xaxis : {
+											min : 0.00,
+											max : 150.00,
+											tickInterval : 50.00
+										},
+										yaxis : {
+											renderer : $.jqplot.CategoryAxisRenderer,
+										}
+									}
+
+								});
+
+			} else {
+				tableReset('unitcost');
+
+			}
+			
+			$("#graphView4>div:eq(2)").remove(); // 라벨표시 삭제
+		}
+	}
+	
+	// JqGrid 막대그래프 생성
+	function addBarGrahp(res_data){
+		
+		var hi=0;
+		var rows = res_data.rows;
+		
+		var items1 = new Array();
+		var items2 = new Array();
+		var items3 = new Array();
+		var items4 = new Array();
+		
+		for(hi=0;hi<rows.length;hi++){
+			
+			//추이그래프
+			var tempItems1 = new Array();
+			var tempItems2 = new Array();
+			var tempItems3 = new Array();
+			var tempItems4 = new Array();
+		
+			tempItems1.push(rows[hi].cntr, rows[hi].hosu);
+			tempItems2.push(rows[hi].cntr, rows[hi].kwh);
+			tempItems3.push(rows[hi].cntr, rows[hi].amt);
+			//tempItems4.push(rows[hi].unitcost);
+			tempItems4.push(rows[hi].cntr, rows[hi].unitcost);
+			
+			items1[hi] = tempItems1;
+			items2[hi] = tempItems2;
+			items3[hi] = tempItems3;
+			items4[hi] = tempItems4;
+		}
+		
+		$("#barGraphView1").empty();
+		$("#barGraphView2").empty();
+		$("#barGraphView3").empty();
+		$("#barGraphView4").empty();
+
+		$.jqplot.config.enablePlugins = true;
+		
+		// 고객호수
+		if (items1.length > 0) {
+			if ($('#hosucheck').prop("checked")) {
+				//그래프
+				var plot1 = $
+					.jqplot('barGraphView1', eval([ items1 ]),
+						  {
+							//title : '고객호수',
+							animate: false,
+							seriesDefaults : {
+									shadow : false,
+									renderer:$.jqplot.BarRenderer,
+									rendererOptions :{
+													  varyBarColor: true,
+													  barWidth : 50
+													  
+													   // startAngle : -90,
+													   // showDataLabels : false
+													   //dataLabels : 'value',
+													   //totalLabel : true
+									}
+							},
+			    	        axesDefaults : {
+				    	        	tickRenderer : $.jqplot.CanvasAxisTickRenderer,
+				    	        	tickOptions:{
+				    	        		show : true,
+		
+				    	        		// angel : -1000,
+				    	        		fontsize : '10pt'
+				    	        	}
+			    	        	
+			    	        },
+			    	        axes:{
+			    	        	yaxis:{
+				    	        		tickOptions:{
+				    	        			formatString : "%'d" // 000,000,000 단위표시
+				    	                	}
+		        	            },
+			    	            xaxis:{
+		        	            	renderer: $.jqplot.CategoryAxisRenderer,
+		        	                //pad : 1000.00,
+		        	                
+			    	            }
+			    	        },
+			    	        highlighter: {	// 막대그래프 툴팁 옵션(Mousehover)
+						            show: false,
+					        },
+							seriesColors:[  "#97d7ff",
+							                "#58b2eb",
+							                "#3d72c9",
+							                "#b8e79f",
+							                "#51cda0",
+							                "#2a936f",
+							                "#fff09c",
+							                "#ff8684",
+							                "#c02725",
+							                "#ffa740" ],
+							grid : {
+								drawGridlines : true,
+								background : 'white',
+								//borderColor : 'white',
+								shadow : false
+							}
+							
+				}); // var par1
+			}
+		}
+		
+		// 사용량
+		if (items2.length > 0) {
+			if ($('#amtcheck').prop("checked")) {
+				// 그래프
+				var plot2 = $.jqplot('barGraphView2', eval([ items2 ]),
+					  {
+						//title : '사용량',
+						animate: false,
+						seriesDefaults : {
+								shadow : false,
+								renderer:$.jqplot.BarRenderer,
+								rendererOptions :{
+												   varyBarColor: true,
+												   barWidth : 50
+													
+												   // startAngle : -90,
+												   // showDataLabels : false
+												   //dataLabels : 'value',
+												   //totalLabel : true
+								}
+						},
+		    	        axesDefaults : {
+			    	        	tickRenderer : $.jqplot.CanvasAxisTickRenderer,
+			    	        	tickOptions:{
+			    	        		// angel : -1000,
+			    	        		fontsize : '10pt'
+			    	        	}
+		    	        	
+		    	        },
+		    	        axes:{
+		    	        	yaxis:{
+								tickOptions:{
+										formatString : "%'d" // 000,000,000 단위표시
+										}
+		    	            },
+		    	            xaxis:{
+		    	            	renderer: $.jqplot.CategoryAxisRenderer,
+		    	            }
+		    	        },
+		    	        highlighter: {	// 막대그래프 툴팁 옵션(Mousehover)
+					            show: false,
+				        },
+						seriesColors:[  "#97d7ff",
+						                "#58b2eb",
+						                "#3d72c9",
+						                "#b8e79f",
+						                "#51cda0",
+						                "#2a936f",
+						                "#fff09c",
+						                "#ff8684",
+						                "#c02725",
+						                "#ffa740" ],
+		
+						grid : {
+							drawGridlines : true,
+							background : 'white',
+							//borderColor : 'white',
+							shadow : false
+						}
+				});
+			}
+		}
+		
+		// 전기요금
+		if (items3.length > 0) {
+			if ($('#kwhcheck').prop("checked")) {
+				//그래프
+				var plot3 = $.jqplot('barGraphView3',eval([ items3 ]),
+					   {
+						//title : '전기요금',
+						animate: false,
+						seriesDefaults : {
+								shadow : false,
+								renderer:$.jqplot.BarRenderer,
+								rendererOptions :{
+												  varyBarColor: true,
+												  barWidth : 50
+								}
+						},
+		    	        axesDefaults : {
+			    	        	tickRenderer : $.jqplot.CanvasAxisTickRenderer,
+			    	        	tickOptions:{
+			    	        		// angel : -1000,
+			    	        		fontsize : '10pt'
+			    	        	}
+		    	        	
+		    	        },
+		    	        axes:{
+		    	        	yaxis:{
+								tickOptions:{
+										formatString : "%'d" // 000,000,000 단위표시
+										}
+		    	            },
+		    	            xaxis:{
+		    	            	renderer: $.jqplot.CategoryAxisRenderer,
+		    	            }
+		    	        },
+		    	        highlighter: {	// 막대그래프 툴팁 옵션(Mousehover)
+					            show: false,
+				        },
+						seriesColors:[  "#97d7ff",
+						                "#58b2eb",
+						                "#3d72c9",
+						                "#b8e79f",
+						                "#51cda0",
+						                "#2a936f",
+						                "#fff09c",
+						                "#ff8684",
+						                "#c02725",
+						                "#ffa740" ],
+		
+						grid : {
+							drawGridlines : true,
+							background : 'white',
+							//borderColor : 'white',
+							shadow : false
+						}
+				});
+			}
+		}
+		
+		//평균판매단가
+		if (items4.length > 0) {
+			if ($('#unitcostcheck').prop("checked")) {
+				// 그래프
+				var plot4 = $.jqplot('barGraphView4',eval([ items4 ]),
+					  {
+						//title : '전기요금',
+						animate: false,
+						seriesDefaults : {
+								shadow : false,
+								renderer:$.jqplot.BarRenderer,
+								rendererOptions :{
+												  varyBarColor: true,
+								}
+						},
+		    	        axesDefaults : {
+			    	        	tickRenderer : $.jqplot.CanvasAxisTickRenderer,
+			    	        	tickOptions:{
+			    	        		// angel : -1000,
+			    	        		fontsize : '10pt'
+			    	        	}
+		    	        	
+		    	        },
+		    	        axes:{
+		    	        	yaxis:{
+								tickOptions:{
+										formatString : "%'d" // 000,000,000 단위표시
+										}
+		    	            },
+		    	            xaxis:{
+		    	            	renderer: $.jqplot.CategoryAxisRenderer,
+		    	            }
+		    	        },
+		    	        highlighter: {	// 막대그래프 툴팁 옵션(Mousehover)
+					            show: false,
+				        },
+						seriesColors:[  "#97d7ff",
+						                "#58b2eb",
+						                "#3d72c9",
+						                "#b8e79f",
+						                "#51cda0",
+						                "#2a936f",
+						                "#fff09c",
+						                "#ff8684",
+						                "#c02725",
+						                "#ffa740" ],
+		
+						grid : {
+							drawGridlines : true,
+							background : 'white',
+							//borderColor : 'white',
+							shadow : false
+						}
+						
+				});
+			}
+		}
+		
+		
+	} //barGraph
+	
+	// JqGrid 추이 그래프 생성
+	function addLineGraph(res_data){
+		
+		var hi=0;
+		var rows = res_data.rows;
+		
+		var items1 = new Array();
+		var items2 = new Array();
+		var items3 = new Array();
+		var items4 = new Array();
+		var items5 = new Array();
+		var items6 = new Array();
+		var items7 = new Array();
+		
+		var itemTicks = new Array();
+		
+		for(hi=0;hi<rows.length;hi++){
+			
+			if(rows[hi].cntr == '가로등'){
+				items1.push(rows[hi].hosu);
+				itemTicks.push(rows[hi].yyyymm);
+			}
+			if(rows[hi].cntr == '교육용'){
+				items2.push(rows[hi].hosu);
+			}
+			if(rows[hi].cntr == '농사용'){
+				items3.push(rows[hi].hosu);
+			}
+			if(rows[hi].cntr == '산업용'){
+				items4.push(rows[hi].hosu);
+			}
+			if(rows[hi].cntr == '심 야'){
+				items5.push(rows[hi].hosu);
+			}
+			if(rows[hi].cntr == '일반용'){
+				items6.push(rows[hi].hosu);
+			}
+			if(rows[hi].cntr == '주택용'){
+				items7.push(rows[hi].hosu);
+			}
+		}
+	    
+		
+	    $("#lineGraphView1").empty();
+		$.jqplot.config.enablePlugins = true;
+		
+		var plot1 = $.jqplot("lineGraphView1", [items1, items2, items3, items4, items5, items6, items7],
+				{
+			        // title: "시각화",
+			        axesDefaults: {
+			        	tickRenderer : $.jqplot.CanvasAxisTickRenderer,
+			            pad: 1.05
+			        },
+			        fillBetween: {
+			            series1: 1,
+			            series2: 2,
+			            series3: 3,
+			            
+			            //color: "rgba(227, 167, 111)",
+			            baseSeries: 0,  
+			            fill: false
+			        },
+			        seriesDefaults: {
+			            rendererOptions: {
+			                smooth: false
+			            }
+			        },
+					grid : {
+						drawGridlines : true,
+						background : 'white',
+						// borderColor : 'white',
+						shadow : false
+					},
+					stackSeries : false,
+			        axes:{
+			        	 xaxis:{
+								  renderer: $.jqplot.CategoryAxisRenderer, 
+								  ticks : itemTicks
+								  
+						 },
+			              yaxis:{
+								  tickOptions:{
+		    	        				formatString : "%'d" // 000,000,000 단위표시
+							  	  }
+			             }
+			       },
+	    	       highlighter: {	// 막대그래프 툴팁 옵션(Mousehover)
+			            show: false,
+			            showLabel: true
+		           },
+					seriesColors:[  "#97d7ff",
+					                "#58b2eb",
+					                "#3d72c9",
+					                "#b8e79f",
+					                "#51cda0",
+					                "#2a936f",
+					                "#fff09c",
+					                "#ff8684",
+					                "#c02725",
+					                "#ffa740" ],
+	    });
+		
+		
+		$("#lineGraphView1").height($("#lineGraphView1").height()+30);
+		$(".jqplot-axis").height(30);
+		    
+	} // lineGraph()
+	
+	// JqGrid 팝업그래프 생성
+	function popGrahp(res_data){
+		
+		var popGraphId = $("#popGraphId").val();
+		
+		var hi=0;
+		var rows = res_data.rows;
+		
+		var items1 = new Array();
+		var items2 = new Array();
+		var items3 = new Array();
+		var items4 = new Array();
+		
+		for(hi=0;hi<rows.length;hi++){
+			
+			//그래프
+			var tempItems1 = new Array();
+			var tempItems2 = new Array();
+			var tempItems3 = new Array();
+			var tempItems4 = new Array();
+			
+			tempItems1.push(rows[hi].cntr, rows[hi].hosu);
+			tempItems2.push(rows[hi].cntr, rows[hi].kwh);
+			tempItems3.push(rows[hi].cntr, rows[hi].amt);
+			tempItems4.push(rows[hi].unitcost);
+			
+			items1[hi] = tempItems1;
+			items2[hi] = tempItems2;
+			items3[hi] = tempItems3;
+			items4[hi] = tempItems4;
+		}
+		
+		$("#popLabel").html('');
+		$("#popGraphView").empty();
+		$.jqplot.config.enablePlugins = false;
+		
+		if(popGraphId == 'graphView1'){
+			
+			$("#popLabel").html('고객호수');
+			
+			var plot1 = $
+					.jqplot(
+							'popGraphView',
+							eval([ items1 ]),
+							{
+								//title : '고객호수',
+								seriesDefaults : {
+									shadow : false,
+									renderer : $.jqplot.PieRenderer,
+									rendererOptions : {
+										startAngle : -90,
+										showDataLabels : true,
+										dataLabelThreshold:0.1,
+										dataLabelPositionFactor:1.1, 
+										dataLabelFormatString: '%.1f%%'
+									}
+								},
+								seriesColors:[  "#97d7ff",
+								                "#58b2eb",
+								                "#3d72c9",
+								                "#b8e79f",
+								                "#51cda0",
+								                "#2a936f",
+								                "#fff09c",
+								                "#ff8684",
+								                "#c02725",
+								                "#ffa740" ],
+								grid : {
+									drawGridlines : false,
+									background : 'white',
+									borderColor : 'white',
+									shadow : false
+								}
+			});
+			 
+		}
+		
+		if(popGraphId == 'graphView2'){
+			
+			$("#popLabel").html('사용량');
+			
+			var plot2 = $
+					.jqplot(
+							'popGraphView',
+							eval([ items2 ]),
+							{
+								//title : '사용량',
+								seriesDefaults : {
+									shadow : false,
+									renderer : $.jqplot.PieRenderer,
+									rendererOptions : {
+										startAngle : -90,
+										showDataLabels : true,
+										dataLabelThreshold: 0.1,
+										dataLabelPositionFactor: 1.1, 
+										dataLabelFormatString: '%.1f%%',
+									}
+								},
+								seriesColors:[  "#97d7ff",
+								                "#58b2eb",
+								                "#3d72c9",
+								                "#b8e79f",
+								                "#51cda0",
+								                "#2a936f",
+								                "#fff09c",
+								                "#ff8684",
+								                "#c02725",
+								                "#ffa740" ],
+								grid : {
+									drawGridlines : false,
+									background : 'white',
+									borderColor : 'white',
+									shadow : false
+								}
+				});
+		}
+		 
+		if(popGraphId == 'graphView3'){
+			
+			$("#popLabel").html('전기요금');
+			
+			var plot3 = $
+					.jqplot(
+							'popGraphView',
+							eval([ items3 ]),
+							{
+								//title : '전기요금',
+								seriesDefaults : {
+									shadow : false,
+									renderer : $.jqplot.PieRenderer,
+									rendererOptions : {
+										startAngle : -90,
+										showDataLabels : true,
+										dataLabelThreshold: 0.1,
+										dataLabelPositionFactor: 1.1, 
+										dataLabelFormatString: '%.1f%%',
+									}
+								},
+								seriesColors:[  "#97d7ff",
+								                "#58b2eb",
+								                "#3d72c9",
+								                "#b8e79f",
+								                "#51cda0",
+								                "#2a936f",
+								                "#fff09c",
+								                "#ff8684",
+								                "#c02725",
+								                "#ffa740" ],
+								grid : {
+									drawGridlines : false,
+									background : 'white',
+									borderColor : 'white',
+									shadow : false
+								},
+				});
+			
+		}
+		
+		
+		if(popGraphId == 'graphView4'){
+			
+			var plot4 = $
+					.jqplot(
+							'popGraphView',
+							 items4,
+							{
+								title : '평균판매단가',
+								captureRightClick : true,
+								seriesDefaults : {
+									renderer : $.jqplot.BarRenderer,
+									pointLabels : {show:true, location:'e', edgeTolerance:-15},
+									shadow : false,
+									rendererOptions : {
+										barDirection : 'horizontal',
+										highlightMouseDown : false
+									}
+								},
+								seriesColors:[  "#97d7ff",
+								                "#58b2eb",
+								                "#3d72c9",
+								                "#b8e79f",
+								                "#51cda0",
+								                "#2a936f",
+								                "#fff09c",
+								                "#ff8684",
+								                "#c02725",
+								                "#ffa740" ],
+								grid : {
+									drawGridlines : false,
+									background : 'white',
+									borderColor : 'white',
+									shadow : false
+								},
+						       axesDefaults : {
+							       	tickRenderer : $.jqplot.CanvasAxisTickRenderer,
+							       	tickOptions:{
+							       		//angel : -100,
+							       		fontsize : '10pt'
+									}
+				       			},
+								axes : {
+									xaxis : {
+										min : 0.00,
+										max : 150.00,
+										tickInterval : 50.00
+									},
+									yaxis : {
+										renderer : $.jqplot.CategoryAxisRenderer
+									}
+								}
+
+				});
+			
+				$("#popGraphView>div:eq(2)").remove(); // 라벨표시 삭제
+		}
+		
+	} //addPopGrahp
+	
+	
+	// 팝업창 그래프 생성 Ajax
+	function addPopGrahpAjx(title){
+		
+		$("#pstate").val("X");
+		
+		var params =  $("form[name=listfrm]").serialize();
+		
+		$.ajax({
+	        type: "post",
+	        url: "/cmsajax.do",
+	        data: params,
+	        async: true,
+	        dataType:"json",
+	        timeout: 3000,
+	        error: function (jqXHR, textStatus, errorThrown) {
+            	// 통신에 에러가 있을경우 처리할 내용(생략가능)
+	        	alert("네트웍장애가 발생했습니다. 다시시도해주세요");
+	        },
+	        success: function(data){
+	           if(data.result==true){
+					if(data.rows!=""){
+						
+						popHighGrahp(data, title);		 // 하이차트 팝업 
+						addHiBarGrahp(data);			 // 하이차트 Bar그래프
+						
+					}else{
+
+					}
+	           
+	           }else{
+		        	alert(data.TRS_MSG);
+		        	top.location.href="/cmsmain.do";
+		        	
+	           }
+
+	        }
+	
+		});
+	}
+	
+	// 시각화 그래프 생성 Ajax
+	function addLineGrahpAjx(){
+		
+		var cbCntrCntLength = $("input:checkbox[id ^='cbCntr']").length; 
+		$("#cbCntrCnt").val(cbCntrCntLength);
+		
+		$("#pstate").val("X3");
+		
+		var params =  $("form[name=listfrm]").serialize();
+		
+		$.ajax({
+	        type: "post",
+	        url: "/cmsajax.do",
+	        data: params,
+	        async: true,
+	        dataType:"json",
+	        timeout: 3000,
+	        error: function (jqXHR, textStatus, errorThrown) {
+            	// 통신에 에러가 있을경우 처리할 내용(생략가능)
+	        	alert("네트웍장애가 발생했습니다. 다시시도해주세요");
+	        	loadingClose();
+	        },
+	        success: function(data){
+	           if(data.result==true){
+					if(data.rows!=""){
+						
+						addLineHighGrahp(data);		// 하이차트 추이그래프
+						
+						// addLineGraph(data);	// 추이그래프 생성
+					}else{
+
+					}
+	           
+	           }else{
+		        	alert(data.TRS_MSG);
+		        	top.location.href="/cmsmain.do";
+		        	
+	           }
+	           
+	           loadingClose();
+
+	        }
+	
+		});
+	}
+	
+	
+	/****************************  하이차트 START  *****************************/
+	
+	// 하이차트 그래프
+	function addHighGrahp(data){
+		
+		var cbCntrCntLength = $("input:checkbox[id ^='cbCntr']").length; 
+		$("#cbCntrCnt").val(cbCntrCntLength);
+		
+		// 하이차트 위치 생성
+		var graph_html = "";
+		 
+		graph_html = graph_html+"<div class='table_A0'>";
+		graph_html = graph_html+"<table summary='summary'><caption>caption</caption>";
+		graph_html = graph_html+"<colgroup><col width='25%' /><col width='25%' /><col width='25%' /><col width='*' /></colgroup>";
+		graph_html = graph_html+"<thead><tr><th scope='col'>고객호수(호)</th><th scope='col'>사용량(kWh)</th><th scope='col'>전기요금(원)</th><th scope='col'>평균판매단가<br/>(원/kWh)</th></tr></thead>";
+		graph_html = graph_html+"<tbody id=''>";
+		graph_html = graph_html+"<tr>";
+		graph_html = graph_html+"<td><div id='graphView1'></div></td>";
+		graph_html = graph_html+"<td><div id='graphView2'></div></td>";
+		graph_html = graph_html+"<td><div id='graphView3'></div></td>";
+		graph_html = graph_html+"<td><div id='graphView4' style='padding:3px; '></div></td>";
+		graph_html = graph_html+"</tr>";
+		graph_html = graph_html+"</tbody></table>";
+		graph_html = graph_html+"<p class='mat_10'>** 모든 그래프 범례의 항목 클릭시 해당항목은 활성/비활성 되어 보여집니다. **</p>";
+		graph_html = graph_html+"</div>";
+		 
+		$('#donutGraph').html('');				// 하이차트 초기화
+		$('#donutGraph').append(graph_html);	// 하이차트 세팅
+		
+		// 하이차트 그래프 생성 시작
+		var arrData1 = new Array();
+		var arrData2 = new Array();
+		var arrData3 = new Array();
+		var arrData4 = new Array();
+		
+		for (i in data.rows) {
+			
+			var obj1 = { "name" : data.rows[i].cntr, "y" : data.rows[i].hosu };
+			var obj2 = { "name" : data.rows[i].cntr, "y" : data.rows[i].kwh };
+			var obj3 = { "name" : data.rows[i].cntr, "y" : data.rows[i].amt };
+			var obj4 = { "name" : data.rows[i].cntr, "data" : [Number(data.rows[i].unitcost)] };
+			
+			arrData1[i] = obj1;
+			arrData2[i] = obj2;
+			arrData3[i] = obj3;
+			arrData4[i] = obj4;
+		}
+		
+	    // 고객호수
+	    if(arrData1.length > 0){
+	    	
+	        Highcharts.chart('graphView1', {
+			    chart: {
+			        plotBackgroundColor : null,  //차트배경색
+			        plotBorderWidth     : null,
+			        plotShadow          : false,
+			        type                : 'pie',
+			        style:{
+			        	width : null,
+			        	textAlign : null
+			        }
+			    },
+			    title: {
+			        text: ""
+			    },
+			    tooltip: {
+			        //pointFormat: '{series.name}: <b>{point.percentage:.1f} %</b>'
+			        formatter: function () {
+			        	return this.key + ': <b>' + Highcharts.numberFormat(this.percentage, 1) + '%</b>';
+			        }
+			    },
+			    plotOptions: {
+			        pie: {
+			            allowPointSelect: false,  //조각분리
+			            cursor: 'pointer',
+			            //colors: pieColor,
+			            dataLabels: {
+			                enabled: false
+			                //format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+			            },
+			            style: {
+	//		                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+		                },
+			            showInLegend: true,	//범례표시
+			            borderWidth: 1,
+			            //borderColor: 'lightgray',
+			            shadow: false,
+			            slicedOffset: 10,
+			            events:{
+			            	click:function(e){
+			            		
+			        	    	var clickGraphId = 'graphView1'; // 선택된 그래프의 ID
+			        	    	popGridPosition(clickGraphId);	 // 팝업창 위치 조정
+			            	} // 클릭이벤트
+			            }
+			        }
+			    },
+			    series: [{
+			        name         : null,
+			        colorByPoint : true,
+			        data         : arrData1  //json데이터 포맷팅후
+			    }],
+			    navigation:{
+			    	buttonOptions:{enabled : false}	//프린트 버튼 삭제, button-context 삭제
+			    }
+			});
+	    }
+		
+		// 사용량
+		if(arrData2.length > 0){
+		    
+	        Highcharts.chart('graphView2', {
+			    chart: {
+			        plotBackgroundColor : null,  //차트배경색
+			        plotBorderWidth     : null,
+			        plotShadow          : false,
+			        type                : 'pie',
+			        style:{
+			        	width : null,
+			        	textAlign : null
+			        }
+			    },
+			    title: {
+			        text: ""
+			    },
+			    tooltip: {
+			        //pointFormat: '{series.name}: <b>{point.percentage:.1f} %</b>'
+			        formatter: function () {
+			        	return this.key + ': <b>' + Highcharts.numberFormat(this.percentage, 1) + '%</b>';
+			        }
+			    },
+			    plotOptions: {
+			        pie: {
+			            allowPointSelect: false,  //조각분리
+			            //cursor: 'pointer',
+			            dataLabels: {
+			                enabled: false
+			                //format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+			            },
+			            style: {
+	//		                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+		                },
+			            showInLegend: true,	//범례표시
+			            borderWidth: 1,
+			            //borderColor: 'lightgray',
+			            shadow: false,
+			            slicedOffset: 10,
+			            events:{
+			            	click:function(e){
+			            		
+			        	    	var clickGraphId = 'graphView2'; // 선택된 그래프의 ID
+			        	    	popGridPosition(clickGraphId);	 // 팝업창 위치 조정
+			            	} // 클릭이벤트
+			            }
+			        }
+			    },
+			    series: [{
+			        name         : null,
+			        colorByPoint : true,
+			        data         : arrData2  //json데이터 포맷팅후
+			    }],
+			    navigation:{
+			    	buttonOptions:{enabled : false}	//프린트 버튼 삭제, button-context 삭제
+			    }
+			});
+		}
+		
+	    // 전기요금
+		if(arrData3.length > 0){
+			
+	        Highcharts.chart('graphView3', {
+			    chart: {
+			        plotBackgroundColor : null,  //차트배경색
+			        plotBorderWidth     : null,
+			        plotShadow          : false,
+			        type                : 'pie',
+			        style:{
+			        	width : null,
+			        	textAlign : null
+			        }
+			    },
+			    title: {
+			        text: ""
+			    },
+			    tooltip: {
+			        //pointFormat: '{series.name}: <b>{point.percentage:.1f} %</b>'
+			        formatter: function () {
+			        	return this.key + ': <b>' + Highcharts.numberFormat(this.percentage, 1) + '%</b>';
+			        }
+			    },
+			    plotOptions: {
+			        pie: {
+			            allowPointSelect: false,  //조각분리
+			            //cursor: 'pointer',
+			            dataLabels: {
+			                enabled: false
+			                //format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+			            },
+			            style: {
+	//		                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+		                },
+			            showInLegend: true,	//범례표시
+			            borderWidth: 1,
+			            //borderColor: 'lightgray',
+			            shadow: false,
+			            slicedOffset: 10,
+			            events:{
+			            	click:function(e){
+			            		
+			        	    	var clickGraphId = 'graphView3'; // 선택된 그래프의 ID
+			        	    	popGridPosition(clickGraphId);	 // 팝업창 위치 조정
+			            	} // 클릭이벤트
+			            }
+			        }
+			    },
+			    series: [{
+			        name         : null,
+			        colorByPoint : true,
+			        data         : arrData3  //json데이터 포맷팅후
+			    }],
+			    navigation:{
+			    	buttonOptions:{enabled : false}	//프린트 버튼 삭제, button-context 삭제
+			    }
+			});
+		}
+	    
+        // 평균판매단가
+		if(arrData4.length > 0){
+			
+	        Highcharts.chart('graphView4', {
+	            chart: {
+	                type: 'column',
+	            },
+	            title: {
+	                text: ''
+	            },
+	            subtitle: {
+	                text: ''
+	            },
+	            xAxis: {
+	                //categories: ['평균판매단가'],
+	                type: null,
+	                reversed:false,
+	                title: {
+	                    text: false
+	                },
+	                labels: {
+	                    enabled: false
+	                }
+	            },
+	            yAxis: {
+	            	minPadding: 0.01,
+	                min: 0,
+	                title: {
+	                    text: '',
+	                    align: 'high'
+	                },
+	                labels: {
+	                    overflow: 'justify'
+	                }
+	            },
+	            tooltip: {
+	                formatter : function () {
+	                	return this.series.name + ': <b>' + this.y + '</b>';
+	                }
+	            },
+	            plotOptions: {
+	            	series: {
+	            		groupPadding: 0,
+	            		pointPadding: 0
+	            	},
+	                bar: {
+	                    showInLegend: true,
+	                    dataLabels: {
+	                        enabled: false
+	                    },
+			            events:{
+			            	click:function(e){
+			            		
+			        	    	var clickGraphId = 'graphView4'; // 선택된 그래프의 ID
+			        	    	popGridPosition(clickGraphId);	 // 팝업창 위치 조정
+			            	} // 클릭이벤트
+			            }
+	                }
+	            },
+	            legend: {
+	            	enabled: true
+	            },
+	            credits: {
+	                //enabled: false
+	            },
+	            series: arrData4,  //json데이터 포맷팅후
+			    navigation:{
+			    	buttonOptions:{enabled : false}	//프린트 버튼 삭제, button-context 삭제
+			    }
+	        });
+		} // 평균판매단가
+	}
+	
+	// 하이차트 (막대 그래프) 
+	function addHiBarGrahp(data){
+		
+		// 막대그래프 위치 생성
+		var graph_html = "";
+
+		graph_html = graph_html+"<div class='table_A0'>";
+		graph_html = graph_html+"<table summary='summary'><caption>caption</caption>";
+		graph_html = graph_html+"<colgroup><col width='25%' /><col width='25%' /><col width='25%' /><col width='*' /></colgroup>";
+		graph_html = graph_html+"<thead><tr><th scope='col'>고객호수(호)</th><th scope='col'>사용량(kWh)</th><th scope='col'>전기요금(원)</th><th scope='col'>평균판매단가<br/>(원/kWh)</th></tr></thead>";
+		graph_html = graph_html+"<tbody id=''>";
+		graph_html = graph_html+"<tr>";
+		graph_html = graph_html+"<td><div id='barGraphView1'></div></td>";
+		graph_html = graph_html+"<td><div id='barGraphView2'></div></td>";
+		graph_html = graph_html+"<td><div id='barGraphView3'></div></td>";
+		graph_html = graph_html+"<td><div id='barGraphView4' style='padding:3px; '></div></td>";
+		graph_html = graph_html+"</tr>";
+		graph_html = graph_html+"</tbody></table>";
+		graph_html = graph_html+"<p class='mat_10'>** 모든 그래프 범례의 항목 클릭시 해당항목은 활성/비활성 되어 보여집니다. **</p>";
+		graph_html = graph_html+"</div>";
+		
+		$('#barGraph').html('');			// 막대그래프 초기화
+		$('#barGraph').append(graph_html);	// 막대그래프 세팅
+		
+		
+		// 하이차트 (막대그래프) 생성 시작
+		var arrData1 = new Array();
+		var arrData2 = new Array();
+		var arrData3 = new Array();
+		var arrData4 = new Array();
+		
+		for (i in data.rows) {
+			
+			var obj1 = { "name" : data.rows[i].cntr, "y" : data.rows[i].hosu };
+			var obj2 = { "name" : data.rows[i].cntr, "y" : data.rows[i].kwh };
+			var obj3 = { "name" : data.rows[i].cntr, "y" : data.rows[i].amt };
+			//var obj4 = { "name" : data.rows[i].cntr, "data" : [Number(data.rows[i].unitcost)] };
+			var obj4 = { "name" : data.rows[i].cntr, "y" : Number(data.rows[i].unitcost) };
+			
+			arrData1[i] = obj1;
+			arrData2[i] = obj2;
+			arrData3[i] = obj3;
+			arrData4[i] = obj4;
+		}
+		
+		// 차트 세팅
+	    Highcharts.setOptions({  //모든숫자 천단위콤마
+	        lang: {
+	            thousandsSep: ','
+	        }
+	    });
+		
+	    var categoriesName = new Array();
+    	
+    	for (i in data.rows) {
+    		categoriesName[i] = arrData1[i].name;
+    	}
+		
+    	// 고객호수
+	    if(arrData1.length > 0){
+			Highcharts.chart('barGraphView1', {
+			    chart: {
+			        type: 'column'
+			    },
+			    title: {
+			        text: ''
+			    },
+			    subtitle: {
+			        text: ''
+			    },
+			    xAxis: {
+			    	categories: categoriesName , 
+			    	crosshair: true
+			    },
+			    yAxis: {
+			    	min: 0,
+			        title: {
+			            //text: 'Rainfall (mm)'
+			        }
+			    },
+			    tooltip: {
+					headerFormat: '<span style="font-size: 10px">{point.key}</span><table>',
+					pointFormat: '<tr><td style="color:{series.color}; padding:0>{series.name}: </td>'
+								+'<td style="padding:0"><b>{point.y} </b></td></tr>',
+					footerFormat: '</table>',
+					shared: true,
+					useHTML: true
+			    },
+			    plotOptions: {
+					column: {
+						pointPadding: 0.2,
+						borderWidth: 0
+					}
+			    },
+	            legend: {
+	            	enabled: false
+	            },		    
+			    series: [{
+			    	colorByPoint: true,
+			        name  : '',
+			        data  : arrData1
+			    }],
+			    navigation:{
+			    	buttonOptions:{enabled : false}	//프린트 버튼 삭제, button-context 삭제
+			    }
+			});
+	    }
+
+	 	// 사용량
+	    if(arrData2.length > 0){
+			Highcharts.chart('barGraphView2', {
+			    chart: {
+			        type: 'column'
+			    },
+			    title: {
+			        text: ''
+			    },
+			    subtitle: {
+			        text: ''
+			    },
+			    xAxis: {
+			    	categories: categoriesName , 
+			    	crosshair: true
+			    },
+			    yAxis: {
+			    	min: 0,
+			        title: {
+			            //text: 'Rainfall (mm)'
+			        }
+			    },
+			    tooltip: {
+					headerFormat: '<span style="font-size: 10px">{point.key}</span><table>',
+					pointFormat: '<tr><td style="color:{series.color}; padding:0>{series.name}: </td>'
+								+'<td style="padding:0"><b>{point.y} </b></td></tr>',
+					footerFormat: '</table>',
+					shared: true,
+					useHTML: true
+			    },
+			    plotOptions: {
+					column: {
+						pointPadding: 0.2,
+						borderWidth: 0
+					}
+			    },
+	            legend: {
+	            	enabled: false
+	            },		    
+			    series: [{
+			    	colorByPoint: true,
+			        name  : '',
+			        data  : arrData2
+			    }],
+			    navigation:{
+			    	buttonOptions:{enabled : false}	//프린트 버튼 삭제, button-context 삭제
+			    }
+			});
+	    }
+	 	
+	 	// 전기요금
+	    if(arrData3.length > 0){
+			Highcharts.chart('barGraphView3', {
+			    chart: {
+			        type: 'column'
+			    },
+			    title: {
+			        text: ''
+			    },
+			    subtitle: {
+			        text: ''
+			    },
+			    xAxis: {
+			    	categories: categoriesName , 
+			    	crosshair: true
+			    },
+			    yAxis: {
+			    	min: 0,
+			        title: {
+			            //text: 'Rainfall (mm)'
+			        }
+			    },
+			    tooltip: {
+					headerFormat: '<span style="font-size: 10px">{point.key}</span><table>',
+					pointFormat: '<tr><td style="color:{series.color}; padding:0>{series.name}: </td>'
+								+'<td style="padding:0"><b>{point.y} </b></td></tr>',
+					footerFormat: '</table>',
+					shared: true,
+					useHTML: true
+			    },
+			    plotOptions: {
+					column: {
+						pointPadding: 0.2,
+						borderWidth: 0
+					}
+			    },
+	            legend: {
+	            	enabled: false
+	            },		    
+			    series: [{
+			    	colorByPoint: true,
+			        name  : '',
+			        data  : arrData3
+			    }],
+			    navigation:{
+			    	buttonOptions:{enabled : false}	//프린트 버튼 삭제, button-context 삭제
+			    }
+			});
+	    }
+		
+        // 평균판매단가
+		if(arrData4.length > 0){
+			Highcharts.chart('barGraphView4', {
+			    chart: {
+			        type: 'column'
+			    },
+			    title: {
+			        text: ''
+			    },
+			    subtitle: {
+			        text: ''
+			    },
+			    xAxis: {
+			    	categories: categoriesName , 
+			    	crosshair: true
+			    },
+			    yAxis: {
+			    	min: 0,
+			        title: {
+			            //text: 'Rainfall (mm)'
+			        }
+			    },
+			    tooltip: {
+					headerFormat: '<span style="font-size: 10px">{point.key}</span><table>',
+					pointFormat: '<tr><td style="color:{series.color}; padding:0>{series.name}: </td>'
+								+'<td style="padding:0"><b>{point.y} </b></td></tr>',
+					footerFormat: '</table>',
+					shared: true,
+					useHTML: true
+			    },
+			    plotOptions: {
+					column: {
+						pointPadding: 0.2,
+						borderWidth: 0
+					}
+			    },
+	            legend: {
+	            	enabled: false
+	            },		    
+			    series: [{
+			    	colorByPoint: true,
+			        name  : '',
+			        data  : arrData4
+			    }],
+			    navigation:{
+			    	buttonOptions:{enabled : false}	//프린트 버튼 삭제, button-context 삭제
+			    }
+			});
+		} // 평균판매단가
+	}
+	
+	// 추이그래프 하이차트(꺾은선그래프)
+	function addLineHighGrahp(data) {
+		
+		// 추이그래프 위치 생성
+		var lineGraph_html = "<div id='lineGraphView1' style='height:550px;width:100%;margin-bottom:50px;'></div>"
+		
+		$('#lineGraph').html('');				// 추이그래프 초기화
+		$('#lineGraph').append(lineGraph_html);	// 추이그래프 세팅
+		$('#lineGraph').append('<input type="button" id="showAll" style="position:absolute;bottom:50px;left:50%;margin-left:-50px" class="btn_1 size_s1" value="전체선택"/>');
+		$('#lineGraph').append('<p class="mat_10">** 모든 그래프 범례의 항목 클릭시 해당항목은 활성/비활성 되어 보여집니다. **</p>');
+		
+		// 추이그래프 생성 시작
+		var arrYear = new Array();
+		var arrData = new Array();
+		var items1 = new Array();
+		var items2 = new Array();
+		var items3 = new Array();
+		var items4 = new Array();
+		var items5 = new Array();
+		var items6 = new Array();
+		var items7 = new Array();
+		
+		//x축 데이터 담기
+		for (i in data.rows) {
+			if(data.rows[i].yyyymm != null){
+				arrYear.push(data.rows[i].yyyymm);
+			}
+		}
+		
+		arrYear = $.unique(arrYear);  //중복제거
+		
+		
+		//y축 데이터 담기
+		for (i in data.rows) {
+			if ($.trim(data.rows[i].cntr)=='가로등') {
+                items1.push(data.rows[i].hosu);
+            } else if ($.trim(data.rows[i].cntr)=='교육용') {
+                items2.push(data.rows[i].hosu);
+            } else if ($.trim(data.rows[i].cntr)=='농사용') {
+                items3.push(data.rows[i].hosu);
+            } else if ($.trim(data.rows[i].cntr)=='산업용') {
+                items4.push(data.rows[i].hosu);
+            } else if ($.trim(data.rows[i].cntr)=='심 야') {
+                items5.push(data.rows[i].hosu);
+            } else if ($.trim(data.rows[i].cntr)=='일반용') {
+                items6.push(data.rows[i].hosu);
+            } else if ($.trim(data.rows[i].cntr)=='주택용') {
+                items7.push(data.rows[i].hosu);
+            }
+		}
+		
+		// 차트 세팅
+	    Highcharts.setOptions({  //모든숫자 천단위콤마
+	        lang: {
+	            thousandsSep: ','
+	        }
+	    });
+		
+		var chart = Highcharts.chart('lineGraphView1', {
+		    chart: {
+		        //type: 'spline'  //완만하게
+		    },
+		    title: {
+		        text: '추이그래프'
+		    },
+		    subtitle: {
+		        text: ''
+		    },
+		    xAxis: {
+		        categories: arrYear
+		    },
+		    yAxis: {
+		        title: {
+		            text: ''
+		        }
+		    },
+		    tooltip: {
+		    	crosshairs: false,  //해당범위 영역 표시
+	            shared: false,      //해당범위 다른값 표시
+	            //headerFormat: null,  //X축숨김처리
+		    },
+		    plotOptions: {
+		        line: {
+		            dataLabels: {
+		                enabled: true
+		            },
+		            enableMouseTracking: true
+		        }
+		    },
+		    series: [
+		         { name  : '주택용', marker: { symbol: 'circle' }, data  : items7 },
+		         { name  : '일반용', marker: { symbol: 'circle' }, data  : items6 },
+		         { name  : '교육용', marker: { symbol: 'circle' }, data  : items2 },
+		         { name  : '산업용', marker: { symbol: 'circle' }, data  : items4 },
+		         { name  : '농사용', marker: { symbol: 'circle' }, data  : items3 },
+	             { name  : '가로등', marker: { symbol: 'circle' }, data  : items1 },
+	             { name  : '심 야',   marker: { symbol: 'circle' }, data  : items5 }
+			]
+		    
+		});
+		// END Build the chart
+		
+		// 초기 추이그래프 하나의 그래프만 보여지게 처리	
+		for(i=1; i< chart.series.length;i++ ){
+			chart.series[i].hide();
+		}
+		
+		$("#showAll").on('click', function(){
+			if( $("#showAll").val() == "전체선택"){
+				for(i=0; i< chart.series.length;i++ ){
+					$("#showAll").val("초기화");
+					chart.series[i].show();
+				}
+			}else if($("#showAll").val() == "초기화"){
+				for(i=1; i< chart.series.length;i++ ){
+					$("#showAll").val("전체선택");
+					chart.series[i].hide();
+				}
+			}
+		});
+		
+	}
+	
+	//팝업창 하이차트(원그래프, 막대그래프)
+	function popHighGrahp(data, title){
+		
+		/**********************************
+		* graphView1 : 고객호수(hosu)
+		* graphView2 : 사용량   (kwh)
+		* graphView3 : 전기요금(amt)
+		* graphView4 : 평균판매단가
+		**********************************/
+		/* 막대그래프 */
+		if (title=="graphView4") {
+		    var arrData = new Array();
+            
+		    for (i in data.rows) {
+                var obj = { "name" : data.rows[i].cntr
+                          , "data" : [Number(data.rows[i].unitcost)]
+                          };
+                arrData[i] = obj;
+            }
+            // START Build the chart
+            Highcharts.chart('popGraphView', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: '평균판매단가'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    //categories: ['평균판매단가'],
+	                type: null,
+	                reversed:false,
+	                title: {
+	                    text: null
+	                },
+	                labels: {
+	                    enabled: false
+	                }
+                },
+                yAxis: {
+                	minPadding: 0.01,
+                    min: 0,
+                    title: {
+                        text: '',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                tooltip: {
+                    formatter : function () {
+                    	return this.series.name + ': <b>' + this.y + '</b>';
+                    }
+                },
+                plotOptions: {
+                	series: {
+                		groupPadding: 0,
+                		pointPadding: 0
+                	},
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    },
+                    showInLegend: true
+                },
+                legend: {
+                },
+                credits: {
+                    enabled: false
+                },
+                series: arrData  //json데이터 포맷팅후
+            });
+            // END Build the chart
+		}
+		
+		/* 파이그래프 */
+		else if (title!="graphView4") {
+			
+			var arrData = new Array();
+			
+			for (i in data.rows) {
+				var obj = { "name" : data.rows[i].cntr
+						  , "y"    : title=="graphView1" ? data.rows[i].hosu : title=="graphView2" ? data.rows[i].kwh : data.rows[i].amt
+						  };
+				arrData[i] = obj;
+			}
+			
+		    // START Build the chart
+	        Highcharts.chart('popGraphView', {
+			    chart: {
+			        plotBackgroundColor : null,  //차트배경색
+			        plotBorderWidth     : null,
+			        plotShadow          : false,
+			        type                : 'pie'
+			    },
+			    title: {
+			    	text: title=="graphView1" ? "고객호수" : title=="graphView2" ? "사용량" : "전기요금"
+			    },
+			    tooltip: {
+			        //pointFormat: '{series.name}: <b>{point.percentage:.1f} %</b>'
+			        formatter: function () {
+			        	return this.key + ': <b>' + Highcharts.numberFormat(this.percentage, 1) + '%</b>';
+			        }
+			    },
+			    plotOptions: {
+			        pie: {
+			            allowPointSelect: true,  //조각분리
+			            cursor: 'pointer',
+			            dataLabels: {
+			                enabled: true,
+			                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+			            },
+			            style: {
+// 		                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+		                },
+			            showInLegend: true,
+			            borderWidth: 1,
+			            //borderColor: 'lightgray',
+			            shadow: true,
+			            slicedOffset: 30
+			        }
+			    },
+			    series: [{
+			        name         : '',
+			        colorByPoint : true,
+			        data         : arrData  //json데이터 포맷팅후
+			    }]
+			});
+	        // END Build the chart
+		}
+		
+	}
+	
+	/**************************** 하이차트 END ******************************/
+//]]>
+</script>
+<!-- 리스트 jsp 파일-->
+					
+					<!--내용끝-->
+					 
+				</div>
+				<!--//content-->
+
+	</div>
+	<!--//container-->
+	
+	<!--footer-->
+	
+
+
+<!--footer-->
+<footer id="footer">
+	<div class="inner">
+		<div class="foot_logo">전력데이터 개방 포털시스템</div>
+		<div class="foot_info">
+			<ul class="foot_nav">
+				<li><a href="/cmsmain.do?scode=S01&amp;pcode=000393">개인정보처리방침</a></li>
+				<li><a href="http://home.kepco.co.kr/kepco/CU/G/C/CUGCPP00101.do?menuCd=FN120403" target="_new">개인정보침해신고</a></li>
+				<li><a href="/cmsmain.do?scode=S01&amp;pcode=000394">이메일주소무단수집금지</a></li>
+				<li><a href="/cmsmain.do?scode=S01&amp;pcode=000471">이용약관</a></li>
+			</ul>
+			<div class="address"></div>
+			<div class="copyright">
+				<span>COPYRIGHTⓒ2018 한국전력공사 전력데이터 개방 포털시스템. ALL RIGHTS RESERVED</span>
+			</div>
+		</div>
+	</div>		
+</footer>
+<!--//footer-->
+
+<div id="top_move_btn" style="display:scroll;position: fixed; right: 2%; bottom: 2%; text-align: center;opacity:0.5;border:2px solid rgba(204, 204, 204, 1);border-radius: 12px;padding: 5px;cursor:pointer;">
+	<img src="/images/cm/up_ar2.png" style="width:3em;"/>
+</div>
+<form name="pagego" id="pagego" method="post">
+	<input type="hidden" name="scode" value="S01">
+	<input type="hidden" name="pcode" value="000166">
+	<input type="hidden" name="pstate" value="L" title="페이지상태"  />
+	<input type="hidden" name="sidx" id="sidx" value="" title="선택된인덱스" />	
+</form>
+
+<form name="cmPwForm" id="cmPwForm" method="post" onSubmit='javascript:return false;'>
+	<input type="hidden" name="scode" value="S01">
+	<input type="hidden" name="pcode" value="000166">
+	<input type="hidden" name="pstate" title="페이지상태"  />
+	<input type="hidden" name="email_id" title="조회용 아이디" />
+	<input type="hidden" id="pageStatus" name="pageStatus" title="화면명" />
+	<input type="hidden" id="ifrm_rcept_no" name="ifrm_rcept_no" title="요청접수번호" />
+	<input type="hidden" id="idea_propse_sn" name="idea_propse_sn" title="오픈포탈키값" />
+	
+	
+	<div class="password_layer">
+		<div class="password_box">
+			<div class="pass_tit">비밀번호 입력</div>
+			<dl>
+				<dt><label for="">비밀번호(숫자4자리)</label></dt>
+				<dd><input type="password" id="rqester_password" name="rqester_password" class="input_type01 w_100" maxlength="4" onkeydown="return onlyNum();" title="비밀번호를 입력하세요"></dd>
+			</dl>
+			<!--button-->
+			<div class="button mat_20">
+				<a href="#" class="btn_1 size_s" id="btn_confirm">확인</a>
+				<a href="#" class="btn_2 size_s password_close">취소</a>
+			</div>
+			<!--//button-->
+		</div>
+	</div>
+	
+	
+	
+	<div class="password_layer2">
+		<div class="password_box">
+			<div class="pass_tit">비밀번호 변경</div>
+			
+			<dl>
+				<dt><label for="">신규 비밀번호(숫자4자리)</label></dt>
+				<dd><input type="password" id="after_password" name="after_password" class="input_type01 w_100" maxlength="4" onkeyup="inputNum(this);"  title="비밀번호를 입력하세요"></dd>
+			</dl>
+			<dl>
+				<dt><label for="">신규 비밀번호 확인</label></dt>
+				<dd><input type="password" id="after_password_confirm" name="after_password_confirm" class="input_type01 w_100" maxlength="4" onkeyup="inputNum(this);"  title="비밀번호 확인를 입력하세요"></dd>
+			</dl>
+			<div class="button mat_20">
+				<a href="#;" class="btn_1 size_s" id="btn_confirm2">확인</a>
+				<a href="#;" class="btn_2 size_s password_close" id="btn_cancel">취소</a>
+			</div>
+		</div>
+	</div>
+	
+	
+</form>
+
+<iframe name ="successIframe" id="successIframe" width="100%" height="0" title="결과처리프레임" style="display:none;"></iframe>
+
+<!--//footer-->
+
+<!-- help_m_code:000166<br />
+help_cnt:0<br /> -->
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		$("#btn_confirm").click(function(e){
+			fnPwConfirm();
+		});
+		$("#btn_confirm2").click(function(e){
+			fnPwConfirm();
+		});
+		$("#rqester_password").bind("keydown", function(e) {
+            if (e.keyCode == 13) {
+            	fnPwConfirm();
+            	return false;
+            }
+        });
+
+		var topmoveEle = $('#top_move_btn');
+		var delay = 300;
+		topmoveEle.on('click', function() {
+		  $('html').stop().animate({scrollTop: 0}, delay);
+		});	
+		topmoveEle.hide();
+		$(window).scroll(function(){
+			var wh = $(window).height();
+			var st = $(window).scrollTop();
+			//console.log("height::::"+wh+"::st::::"+st);
+			//console.log("top::"+(wh+st-50));
+			if(wh+st < wh+20){
+				topmoveEle.hide();
+			}else{
+				topmoveEle.show();
+			}
+			
+		});
+		
+		
+	});
+	
+	var iconnum = "2";
+	var  fnHelpIconupdateTm = function(){
+		if(iconnum=="2"){
+			$("#help_icon_id").css("background-image","url(/images/cm/cir_2.png)");
+			iconnum="3";
+		}else{
+			$("#help_icon_id").css("background-image","url(/images/cm/cir_3.png)");
+			iconnum="2";			
+		}
+		//console.log("iconnum:"+iconnum);
+		
+	};
+	
+	var fnOpenPwLayer = function(pageSeq, pageStatus){
+		
+		$("#cmPwForm").find("#pageStatus").val(pageStatus);
+		
+		if(pageStatus == "OUT"){
+			$("#cmPwForm").find("#ifrm_rcept_no").val(pageSeq);
+		}else if(pageStatus == "OPEN"){
+			$("#cmPwForm").find("#idea_propse_sn").val(pageSeq);
+		}else if(pageStatus == "SC"){
+			$("#cmPwForm").find("#ifrm_rcept_no").val(pageSeq);			
+		}else if(pageStatus == "BOARD"){
+			$("#cmPwForm").find("#ifrm_rcept_no").val(pageSeq);			
+		}
+		
+		$('.password_layer').addClass('on');
+		$('body').addClass('no_scroll');
+		$('#blank_layer').show();
+		$("#rqester_password").focus();
+	};
+	
+	var fnPwConfirm = function(){
+		
+		var dpLayer = $('.password_layer').hasClass("on");
+		
+		if(dpLayer){
+			if ($("#rqester_password").val()=="") {
+				alert("비밀번호를 입력해 주시기 바랍니다.");
+				$("#rqester_password").focus();
+				return;
+			}
+			if ($("#rqester_password").val().length < 4) {
+				alert("비밀번호는 숫자4자리로 입력해 주시기 바랍니다.");
+				$("#rqester_password").focus();
+				return;
+			}
+		}else{
+			if($("#before_password").val() == ""){
+				alert("이전 비밀번호를 입력해 주시기 바랍니다.");
+				$("#before_password").focus();
+				return false;
+			}
+			
+			if($("#after_password").val() == ""){
+				alert("신규 비밀번호를 입력해 주시기 바랍니다.");
+				$("#after_password").focus();
+				return false;
+			}else{
+				
+				if($("#after_password").val().length < 4 ){
+					alert('비밀번호는 숫자4자리로 입력해 주시기 바랍니다.');
+					$('#after_password').focus();
+					return;
+				}
+				
+				if($("#after_password").val() ==  $("#before_password").val()){
+					alert('이전 비밀번호와 신규 비밀번호가 동일합니다. \n비밀번호를 다시 입력하여 주시기 바랍니다!');
+					$('#after_password').focus();
+					return;
+				}
+				
+
+			}
+			
+			if($("#after_password_confirm").val() == ""){
+				alert("신규 비밀번호 확인을 입력해 주시기 바랍니다.");
+				$("#after_password_confirm").focus();
+				return false;
+			}
+			
+			if($("#after_password").val() != $("#after_password_confirm").val()){
+				alert("입력하신 비밀번호가 일치하지 않습니다.");
+				$("#after_password_confirm").focus();
+				return false;
+			}
+		}
+		
+		// 맞춤데이터제공
+		if ($("input[name=pageStatus]").val() == 'OUT'){
+			$("input[name=pcode]").val("000071");
+			$("input[name=pstate]").val("PW");
+		}
+		// 맞춤데이터제공 비밀번호 변경
+		else if($("input[name=pageStatus]").val() == 'CH_OUT'){
+			$("input[name=pcode]").val("000071");
+			$("input[name=pstate]").val("PWC");
+		// 공유센터
+		}else if ($("input[name=pageStatus]").val() == 'SC'){
+			$("input[name=pcode]").val("000482");
+			$("input[name=pstate]").val("PASSCHK");			
+		// 오픈포탈
+		}else if ($("input[name=pageStatus]").val() == 'OPEN'){
+			$("input[name=pcode]").val("000401");
+			$("input[name=pstate]").val("PASSCHK");
+		// 게시판
+		}else if ($("input[name=pageStatus]").val() == 'BOARD'){
+			$("input[name=pstate]").val("IPNSCHK");			
+			//$("input[name=idea_propse_sn]").val($("input[name=paramSn]").val());
+		}
+		
+		var params = jQuery("#cmPwForm").serialize();
+		
+		$.ajax({ type     : "post"
+			   , url      : "/cmsajax.do"
+			   , data     : params
+			   , async    : false
+			   , dataType :"json"
+			   , timeout  : 3000
+			   , error    : function (jqXHR, textStatus, errorThrown) {
+				   // 통신에 에러가 있을경우 처리할 내용(생략가능)
+				   alert("네트웍장애가 발생했습니다. 다시시도해주세요");
+				   $('.password_layer').removeClass('on');
+				   $('body').removeClass('no_scroll');
+				   $('#blank_layer').hide();
+			   }			             
+			   , success  : function(data){
+				   if (data.result){
+					   fnCallBack(data.TRS_MSG);
+					   $('.password_layer').removeClass('on');
+					   $('.password_layer2').removeClass('on');
+					   $('body').removeClass('no_scroll');
+					   $('#blank_layer').hide();
+					   if(data.newPw.length == 4){
+						   $('#rqester_password').val(data.newPw);
+					   }
+				   }else{
+				       if($("input[name=pageStatus]").val() == 'OPEN'){
+						   //아이디어제안 목록인경우
+				    	   if(data.init == 'Y'){
+					    	   if(confirm(data.TRS_MSG+'\n비밀번호를 초기화하시겠습니까?\n초기화된 비밀번호는 문자로 전송됩니다')){
+					    		   var form = document.cmPwForm;
+					    		   form.pstate.value='PASSINIT';
+					    		   form.email_id.value = data.email_id;
+ 					    		   form.target = 'successIframe';
+					    		   form.action = '/cmsmain.do';
+					    		   form.submit();
+					    		   $('.password_close').trigger('click');
+					    	   }
+					       }else{
+							   alert(data.TRS_MSG);
+
+					       }
+				       }else{
+				    	   alert(data.TRS_MSG);
+				       }
+					   
+					   
+			       }
+			   }
+		});
+	}
+	
+	//도움말관리		
+	function Go_HelpMngView(){	
+		CmopenpageDisable();
+		var i = 0;
+		
+		var sc_pos = 0;
+		$("#sel_help_title").html("<span >&#8226; </span> 계약종별 전력사용량 도움말");
+		
+		// ajax로 도움말이 등록되어있는지 확인한다.
+		$("form[name=create_formfm_help]").find("#pstate").val("XP1");
+			var params =  $("form[name=create_formfm_help]").serialize();
+			
+			$.ajax({
+		        type: "post",
+		        url: "/cmsajax.do",
+		        data: params,
+		        async: false,
+		        dataType:"json",
+		        timeout: 3000,
+		        error: function (jqXHR, textStatus, errorThrown) {
+	            	// 통신에 에러가 있을경우 처리할 내용(생략가능)
+		        	alert("네트웍장애가 발생했습니다. 다시시도해주세요");
+		        },
+		        success: function(data){
+		        	
+		           if(data.result==true){
+						if(data.rows!=""){
+							//데이터 셋팅
+							$("#editor_top_helptd").html(data.rows[0].m_contents.replace(/&amp;quot;/gi,"\"").replace(/&lt;/gi,"<").replace(/&gt;/gi,">").replace(/&amp;/gi,"&").replace(/&lt;/gi,"<").replace(/&gt;/gi,">").replace(/&amp;/gi,"&"));
+						}else{
+
+							$("#editor_top_helptd").html("");
+
+						}
+		           
+		           }else{
+			        	alert(data.TRS_MSG);
+			        			        	
+		           }
+		           
+		        }
+			});	
+		
+		var pop_w = 750;
+		var pop_h = 550;
+
+		// 수정, 등록창의 위치를 잡는다
+		$("#create_form_helppopup").css("left",( (($(document).width() - pop_w) / 2) + $(document).scrollLeft() )+"px");
+		$("#create_form_helppopup").css("top", ((($(document).height() - pop_h) / 10) + $(document).scrollTop() )+"px");		
+
+		//alert($("#org_text_div").scrollTop()+"==>"+sc_pos);
+
+		
+		
+		$("#create_form_helppopup").show(500);	
+	}	
+	
+	//TODO : create_form_helpclose 
+	//등록 ,수정창 닫기
+	function create_form_helpclose(){
+		$("#create_form_helppopup").hide();
+		$("#editor_top_helptd").html("");
+		CmclospageDisable();
+	}	
+</script><!-- 공통 jsp 파일-->
+	<!--//footer-->
+	
+	
+</div>
+<!--//wrap-->
+
+
+</body>
+</html>
